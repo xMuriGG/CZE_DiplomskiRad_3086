@@ -1,0 +1,55 @@
+﻿@model CZE.Web.Areas.AdministrativniRadnik.Models.UplataKandidataVMs.UplataKandidataCreateVM
+
+
+<!-- Breadcrumbs-->
+<ol class="breadcrumb mb-1">
+  <li class="breadcrumb-item">
+    <a asp-area="AdministrativniRadnik" asp-controller="UplataKandidata" asp-action="UplateKandidataTable" asp-route-grupaKandidatiId="@Model.GrupaKandidatiId"
+       ajax-call="da" ajax-update="#kandidatiBodyDiv"
+    >Uplate kandidata</a>
+  </li>
+  <li class="breadcrumb-item active">Create</li>
+</ol>
+
+<form asp-area="AdministrativniRadnik" asp-controller="UplataKandidata" asp-action="Create"
+      ajax-call="da" ajax-update="#kandidatiBodyDiv" class="px-2">
+  
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+  <input asp-for="UplataKandidataVM.UplataKandidataId" class="form-control" type="hidden"/>
+  <input asp-for="GrupaKandidatiId" class="form-control" type="hidden"/>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="input-group ">
+        <div class="input-group-prepend">
+          <label asp-for="UplataKandidataVM.Kolicina" class="input-group-text"></label>
+        </div>
+        <input asp-for="UplataKandidataVM.Kolicina" class="form-control"/>
+        <div class="input-group-append">
+          <span class="input-group-text">.00 KM</span>
+        </div>
+      </div>
+      <span asp-validation-for="UplataKandidataVM.Kolicina" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+      <div class="input-group ">
+        <div class="input-group-prepend">
+          <label asp-for="UplataKandidataVM.DatumUplate" class="input-group-text"></label>
+        </div>
+        <input asp-for="UplataKandidataVM.DatumUplate" class="form-control"/>
+      </div>
+      <span asp-validation-for="UplataKandidataVM.DatumUplate" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <textarea asp-for="UplataKandidataVM.Biljeske" class="form-control" placeholder="Opcionalne bilješke uplate."></textarea>
+    <span asp-validation-for="UplataKandidataVM.Biljeske" class="text-danger"></span>
+  </div>
+
+  <br/>
+  <div class="form-group">
+    <input type="submit" value="Snimi" class="btn btn-primary"/>
+  </div>
+</form>

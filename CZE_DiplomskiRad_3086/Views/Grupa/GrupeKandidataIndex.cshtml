@@ -1,0 +1,119 @@
+﻿@using CZE.Data.Models
+@model System.Collections.Generic.List<CZE.Web.Areas.AdministrativniRadnik.Models.GrupaVMs.GrupaKandidataVM>
+
+@{
+  ViewBag.Title = "Grupe kandidata";
+}
+
+
+<div class="section-headline text-center">
+  <h2>Grupe kandidata</h2>
+</div>
+
+
+<div class="container">
+  <ul class="nav nav-tabs" id="grupeKandidataTabList" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link btn btn-outline-success active" id="aktivne-tab" data-toggle="tab" href="#aktivne" role="tab" aria-controls="aktivne" aria-selected="true">
+        Aktivne za prijave
+        <span class="badge badge-success">@Model.Count(w => w.Status == GrupaStatus.Aktivna)</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link btn btn-outline-warning" id="uToku-tab" data-toggle="tab" href="#uToku" role="tab" aria-controls="uToku" aria-selected="true">
+        U toku
+        <span class="badge badge-warning">@Model.Count(w => w.Status == GrupaStatus.UToku)</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link btn btn-outline-danger" id="zavrsene-tab" data-toggle="tab" href="#zavrsene" role="tab" aria-controls="zavrsene" aria-selected="false">
+        Završene
+        <span class="badge badge-danger">@Model.Count(w => w.Status == GrupaStatus.Zavrsena)</span>
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="aktivne" role="tabpanel" aria-labelledby="aktivne-tab">
+      @{Html.RenderPartial("~/Views/Grupa/_GrupeKandidataTable.cshtml", Model.Where(w => w.Status == GrupaStatus.Aktivna).ToList());}
+    </div>
+    <div class="tab-pane fade" id="uToku" role="tabpanel" aria-labelledby="uToku-tab">
+      @{Html.RenderPartial("~/Views/Grupa/_GrupeKandidataTable.cshtml", Model.Where(w => w.Status == GrupaStatus.UToku).ToList());}
+    </div>
+    <div class="tab-pane fade" id="zavrsene" role="tabpanel" aria-labelledby="zavrsene-tab">
+      @{Html.RenderPartial("~/Views/Grupa/_GrupeKandidataTable.cshtml", Model.Where(w => w.Status == GrupaStatus.Zavrsena).ToList());}
+    </div>
+  </div>
+
+</div>
+<!-- Modal-->
+<div id="grupaKandidataModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="grupaKandidataModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="grupaKandidataModalLabel">Grupa kandita</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- \Modal-->
+
+@section Scripts
+  {
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('a[data-toggle="popover"]').popover();
+    });
+  </script>
+}
+
+
+@*<div class="card mt-3">
+
+    <div class="card-header bg-secondary text-white">
+      Moje grupe
+    </div>
+    <div class="card-body pl-0 pr-0 pt-3">
+      <div class="mx-3">
+        <ul class="nav nav-tabs" id="grupeKandidataTabList" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link btn btn-outline-success active" id="aktivne-tab" data-toggle="tab" href="#aktivne" role="tab" aria-controls="aktivne" aria-selected="true">
+              Aktivne za prijave
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn btn-outline-warning" id="uToku-tab" data-toggle="tab" href="#uToku" role="tab" aria-controls="uToku" aria-selected="true">
+              U toku
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn btn-outline-danger" id="zavrsene-tab" data-toggle="tab" href="#zavrsene" role="tab" aria-controls="zavrsene" aria-selected="false">
+              Završene
+            </a>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="aktivne" role="tabpanel" aria-labelledby="aktivne-tab">
+            @{Html.RenderPartial("_GrupeKandidataTable", Model.Where(w => w.Status==GrupaStatus.Aktivna).ToList());}
+          </div>
+          <div class="tab-pane fade" id="uToku" role="tabpanel" aria-labelledby="uToku-tab">
+            @{Html.RenderPartial("_GrupeKandidataTable", Model.Where(w => w.Status==GrupaStatus.UToku).ToList());}
+          </div>
+          <div class="tab-pane fade" id="zavrsene" role="tabpanel" aria-labelledby="zavrsene-tab">
+            @{Html.RenderPartial("_GrupeKandidataTable", Model.Where(w => w.Status==GrupaStatus.Zavrsena).ToList());}
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>*@ 

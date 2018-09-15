@@ -1,0 +1,77 @@
+﻿@using CZE.Data.Models
+@using CZE.Web.Util.Helper
+@model List<CZE.Web.Areas.Direktor.Models.CentarVMs.CentarListItemVM>
+@{
+  ViewData["Title"] = "Centri";
+  KorisnickiNalog nalog = ViewData["nalog"] as KorisnickiNalog ?? await Context.GetLogiraniKorisnik();
+  ViewData["nalog"] = nalog;
+}
+
+<div class="card border-dark mt-1">
+  <div class="card-header text-white bg-dark">
+    <a id="btnAddCentar" class="btn btn-dark @(nalog==null || nalog.UlogaKorisnika==UlogeKorisnika.Predavac?"disabled":"")"
+       ajax-call="da" ajax-update="#centriCardBody"
+       asp-area="Direktor" asp-controller="Centar" asp-action="Create">
+      <i class="fa fa-fw fa-plus"></i> Centri
+    </a>
+  </div>
+  <div id="centriCardBody" class="card-body">
+
+    @if (Model?.Any() ?? false)
+    {
+      <table id="kursTipTable" class="table w-100">
+        <thead>
+          <tr>
+            <th>@Html.DisplayNameFor(m => m[0].Naziv)</th>
+            <th>@Html.DisplayNameFor(m => m[0].Adresa)</th>
+            <th>@Html.DisplayNameFor(m => m[0].BrojTelefona)</th>
+            <th>@Html.DisplayNameFor(m => m[0].Email)</th>
+            <th>@Html.DisplayNameFor(m => m[0].Latitude)</th>
+            <th>@Html.DisplayNameFor(m => m[0].Longitude)</th>
+            <th>@Html.DisplayNameFor(m => m[0].Grad)</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var item in Model)
+          {
+            <tr>
+              <td>@Html.DisplayFor(modelItem => item.Naziv)</td>
+              <td>@Html.DisplayFor(modelItem => item.Adresa)</td>
+              <td>
+                @Html.DisplayFor(modelItem => item.BrojMobitela)
+                @if (!string.IsNullOrEmpty(item.BrojTelefona))
+                {
+                  <br /><span>@Html.DisplayFor(modelItem => item.BrojTelefona)</span>
+                }
+              </td>
+              <td>@Html.DisplayFor(modelItem => item.Email)</td>
+              <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
+              <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
+              <td>@Html.DisplayFor(modelItem => item.Grad)</td>
+              <td class="text-right">
+
+                @if (nalog?.UlogaKorisnika <= UlogeKorisnika.Direktor)
+                {
+                  <a asp-area="Direktor" asp-controller="Centar" asp-action="Create" asp-route-id="@item.CentarId"
+                     ajax-call="da" ajax-update="#centriCardBody"
+                     class="btn btn-outline-warning" title="Edit"><span class="fa fa-edit"></span></a>
+                  /*<a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Details"
+                      class="btn btn-outline-success" title="Details"><span class="fa fa-list-alt"></span></a>*/
+                  <a asp-area="Direktor" asp-controller="Centar" asp-action="Delete" asp-route-id="@item.CentarId"
+                     class="btn btn-outline-danger" title="Delete"><span class="fa fa-trash"></span></a>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+    else
+    {
+      <p> Trenutno nema zapisa </p>
+    }
+
+  </div>
+</div>
+

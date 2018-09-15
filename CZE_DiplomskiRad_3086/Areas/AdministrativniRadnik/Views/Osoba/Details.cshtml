@@ -1,0 +1,24 @@
+﻿@using CZE.Data.Models
+@model CZE.Web.Areas.AdministrativniRadnik.Models.OsobaVMs.OsobaDetailsVM
+@{
+  ViewBag.Title = "Osoba details";
+}
+
+<!-- Breadcrumbs-->
+<ol class="breadcrumb mb-0">
+  <li class="breadcrumb-item">
+    <a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Index">Osobe</a>
+  </li>
+  <li class="breadcrumb-item active">Details: @Model.OsobaQuickDetailsVM.Ime @Model.OsobaQuickDetailsVM.Prezime</li>
+</ol>
+
+
+<div class="container">
+  <br />
+  <div id="modalBodyContent">
+    @{await Html.RenderPartialAsync("~/Areas/AdministrativniRadnik/Views/Osoba/_QuickDetails.cshtml", Model.OsobaQuickDetailsVM);}
+  </div>
+  <br />
+  @{await Html.RenderPartialAsync("~/Views/Grupa/GrupeKandidataIndex.cshtml", Model.GrupeKandidataVM);}
+</div>
+

@@ -1,0 +1,43 @@
+﻿@model CZE.Web.Areas.AdministrativniRadnik.Models.GrupaVMs.SlikaCreateVM
+@{
+  Layout = null;
+}
+
+<form asp-area="AdministrativniRadnik" asp-controller="Slika" asp-action="Create" enctype="multipart/form-data"
+      ajax-modal-id="#slikaModal" datatable-id="#slikaDataTable" 
+      ajax-call="da" >
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input asp-for="SlikaVM.SlikaId" class="form-control" type="hidden"/>
+  
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="SlikaVM.KursKategorijaId" class="input-group-text"></label>
+        </div>
+        <select asp-for="SlikaVM.KursKategorijaId" asp-items="@Model.KursKategorije" class="form-control">
+          <option></option>
+        </select>
+      </div>
+      <span asp-validation-for="SlikaVM.KursKategorijaId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col-md-6">
+      <input asp-for="SlikaVM.Naziv" class="form-control" placeholder="@Html.DisplayNameFor(m => m.SlikaVM.Naziv)" />
+      <span asp-validation-for="SlikaVM.Naziv" class="text-danger"></span>
+    </div>
+  </div>
+ 
+  <div class="form-group">
+    <label asp-for="SlikaVM.SlikaUrl" class="col-form-label"></label>
+    <input asp-for="SlikaVM.SlikaUrl" class="form-control"/>
+    <span asp-validation-for="SlikaVM.SlikaUrl" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label asp-for="SlikaVM.SlikaFile" class="col-form-label"></label>
+    <input asp-for="SlikaVM.SlikaFile" class="form-control" accept="image/*" />
+    <span asp-validation-for="SlikaVM.SlikaFile" class="text-danger"></span>
+  </div>
+  <button type="submit" class="btn btn-primary">Snimi</button>
+</form>

@@ -1,0 +1,209 @@
+﻿@using CZE.Data.Models
+@model CZE.Web.Areas.AdministrativniRadnik.Models.OsobaCreateVM
+@{
+    Layout = null;
+  var kpCall = (bool?) ViewData["kpCall"] ?? true;
+}
+   
+@*<form id="frmCreateOsoba" asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Create" 
+      ajax-call="@(kpCall?"ne":"da")" ajax-modal-id="#osobaModal" datatable-id="#osobaDataTable" ajax-update-onModelFail="parent"
+>*@
+  <form id="frmCreateOsoba" asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Create" 
+      ajax-call="da" ajax-modal-id="#osobaModal" datatable-id="#osobaDataTable" ajax-update-onModelFail="parent"
+>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-group">
+  <input asp-for="Osoba.OsobaId" class="form-control" type="hidden" />
+</div>
+
+<div class="form-row">
+  <div class="form-group col-lg-6">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label asp-for="Osoba.Ime" class="input-group-text"></label>
+      </div>
+      <input asp-for="Osoba.Ime" class="form-control" />
+    </div>
+    <span asp-validation-for="Osoba.Ime" class="text-danger"></span>
+  </div>
+  <div class="form-group col-lg-6">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label asp-for="Osoba.Prezime" class="input-group-text"></label>
+      </div>
+      <input asp-for="Osoba.Prezime" class="form-control" />
+    </div>
+    <span asp-validation-for="Osoba.Prezime" class="text-danger"></span>
+  </div>
+</div>
+
+<div class="form-row">
+  <div class="form-group col-lg-6">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label asp-for="Osoba.Spol" class="input-group-text"></label>
+      </div>
+      <select asp-for="Osoba.Spol" asp-items="@Html.GetEnumSelectList(typeof(Osoba.eSpol))" class="form-control">
+        <option></option>
+      </select>
+    </div>
+    <span asp-validation-for="Osoba.Spol" class="text-danger"></span>
+  </div>
+  <div class="form-group col-lg-6">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label asp-for="Osoba.DatumRodjenja" class="input-group-text"></label>
+      </div>
+      <input asp-for="Osoba.DatumRodjenja" class="form-control" />
+    </div>
+    <span asp-validation-for="Osoba.DatumRodjenja" class="text-danger"></span>
+  </div>
+
+</div>
+
+<div class="form-row">
+  <div class="form-group col-lg-6">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label asp-for="Osoba.MjestoRodjenjaId" class="input-group-text"></label>
+      </div>
+      <select asp-for="Osoba.MjestoRodjenjaId" asp-items="@Model.Gradovi" class="form-control">
+        <option></option>
+      </select>
+    </div>
+    <span asp-validation-for="Osoba.MjestoRodjenjaId" class="text-danger"></span>
+  </div>
+  <div class="form-group col-lg-6">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label asp-for="Osoba.MjestoBoravkaId" class="input-group-text"></label>
+      </div>
+      <select asp-for="Osoba.MjestoBoravkaId" asp-items="@Model.Gradovi" class="form-control">
+        <option></option>
+      </select>
+    </div>
+    <span asp-validation-for="Osoba.MjestoBoravkaId" class="text-danger"></span>
+  </div>
+</div>
+
+<div class="form-row">
+  <div class="form-group col-lg-6">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label asp-for="Osoba.Email" class="input-group-text"></label>
+      </div>
+      <input asp-for="Osoba.Email" class="form-control" />
+    </div>
+    <span asp-validation-for="Osoba.Email" class="text-danger"></span>
+  </div>
+
+  <div class="form-group col-lg-6">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label asp-for="Osoba.Adresa" class="input-group-text"></label>
+      </div>
+      <input asp-for="Osoba.Adresa" class="form-control" />
+    </div>
+    <span asp-validation-for="Osoba.Adresa" class="text-danger"></span>
+  </div>
+</div>
+
+<div class="form-row">
+  <div class="form-group col-lg-6">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label asp-for="Osoba.BrojMobitela" class="input-group-text"></label>
+      </div>
+      <input asp-for="Osoba.BrojMobitela" class="form-control" />
+    </div>
+    <span asp-validation-for="Osoba.BrojMobitela" class="text-danger"></span>
+  </div>
+  <div class="form-group col-lg-6">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label asp-for="Osoba.BrojTelefona" class="input-group-text"></label>
+      </div>
+      <input asp-for="Osoba.BrojTelefona" class="form-control" />
+    </div>
+    <span asp-validation-for="Osoba.BrojTelefona" class="text-danger"></span>
+  </div>
+</div>
+
+<div class="form-group">
+  <textarea asp-for="Osoba.KakoSteSaznaliZaNas" class="form-control" placeholder="Opcionalno: @Html.DisplayNameFor(m=>m.Osoba.KakoSteSaznaliZaNas)
+npr. putem interneta, od prijatelja, facebook stranica i sl."></textarea>
+  <span asp-validation-for="Osoba.KakoSteSaznaliZaNas" class="text-danger"></span>
+</div>
+
+<hr />
+
+<div class="card">
+  <div class="card-header">
+    <input asp-for="Osoba.PodatciOFirmi" aria-expanded="false" data-toggle='collapse' data-target='#PodatciOFirmi' style="font-size: 15px" /> @Html.DisplayNameFor(model => model.Osoba.PodatciOFirmi)
+  </div>
+  <div class="collapse" id="PodatciOFirmi">
+    <div class="card-body">
+
+      <div class="form-row">
+        <div class="form-group col-lg-6">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label asp-for="Osoba.NazivFirme" class="input-group-text"></label>
+            </div>
+            <input asp-for="Osoba.NazivFirme" class="form-control" />
+          </div>
+          <span asp-validation-for="Osoba.NazivFirme" class="text-danger"></span>
+        </div>
+        <div class="form-group col-lg-6">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label asp-for="Osoba.AdresaFirme" class="input-group-text"></label>
+            </div>
+            <input asp-for="Osoba.AdresaFirme" class="form-control" />
+          </div>
+          <span asp-validation-for="Osoba.AdresaFirme" class="text-danger"></span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-lg-6">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label asp-for="Osoba.GradFirmeId" class="input-group-text"></label>
+            </div>
+            <select asp-for="Osoba.GradFirmeId" asp-items="@Model.Gradovi" class="form-control">
+              <option></option>
+            </select>
+          </div>
+          <span asp-validation-for="Osoba.GradFirmeId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-lg-6">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label asp-for="Osoba.BrojTelefonaFirme" class="input-group-text"></label>
+            </div>
+            <input asp-for="Osoba.BrojTelefonaFirme" class="form-control" />
+          </div>
+          <span asp-validation-for="Osoba.BrojTelefonaFirme" class="text-danger"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <label asp-for="Osoba.EmailFirme" class="input-group-text"></label>
+          </div>
+          <input asp-for="Osoba.EmailFirme" class="form-control" />
+        </div>
+        <span asp-validation-for="Osoba.EmailFirme" class="text-danger"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br />
+<div class="form-group">
+  <input type="submit" value="Snimi" class="btn btn-default" />
+</div>
+  </form>

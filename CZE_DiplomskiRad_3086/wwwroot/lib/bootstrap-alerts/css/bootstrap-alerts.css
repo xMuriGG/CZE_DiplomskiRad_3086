@@ -1,0 +1,22 @@
+﻿#pageMessages {
+    position: fixed;
+    z-index: 1000;
+    top: 50px;
+    right: 15px;
+    width: 35%;
+}
+
+.alert {
+    position: relative;
+}
+
+.alert .close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 1em;
+}
+
+.alert .fa {
+    margin-right:.3em;
+}

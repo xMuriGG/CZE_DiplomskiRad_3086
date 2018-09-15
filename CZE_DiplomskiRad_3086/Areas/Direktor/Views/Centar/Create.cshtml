@@ -1,0 +1,106 @@
+﻿@model CZE.Web.Areas.Direktor.Models.CentarVMs.CentarCreateVM
+<!-- Breadcrumbs-->
+<ol class="breadcrumb mb-0">
+  <li class="breadcrumb-item">
+    <a asp-area="Direktor" asp-controller="Centar" asp-action="Index">Centri</a>
+  </li>
+  <li class="breadcrumb-item active">Create</li>
+</ol>
+<br/>
+<form asp-area="Direktor" asp-controller="Centar" asp-action="Create">
+
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+  <input asp-for="CentarVM.CentarId" class="form-control" type="hidden" />
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="CentarVM.Naziv" class="input-group-text"></label>
+        </div>
+        <input asp-for="CentarVM.Naziv" class="form-control" />
+      </div>
+      <span asp-validation-for="CentarVM.Naziv" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="CentarVM.GradId" class="input-group-text"></label>
+        </div>
+        <select asp-for="CentarVM.GradId" asp-items="@Model.Gradovi" class="form-control">
+          <option></option>
+        </select>
+      </div>
+      <span asp-validation-for="CentarVM.GradId" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="CentarVM.Adresa" class="input-group-text"></label>
+        </div>
+        <input asp-for="CentarVM.Adresa" class="form-control" />
+      </div>
+      <span asp-validation-for="CentarVM.Adresa" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="CentarVM.Email" class="input-group-text"></label>
+        </div>
+        <input asp-for="CentarVM.Email" class="form-control" />
+      </div>
+      <span asp-validation-for="CentarVM.Email" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="CentarVM.BrojTelefona" class="input-group-text"></label>
+        </div>
+        <input asp-for="CentarVM.BrojTelefona" class="form-control" />
+      </div>
+      <span asp-validation-for="CentarVM.BrojTelefona" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="CentarVM.BrojMobitela" class="input-group-text"></label>
+        </div>
+        <input asp-for="CentarVM.BrojMobitela" class="form-control" />
+      </div>
+      <span asp-validation-for="CentarVM.BrojMobitela" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="CentarVM.Latitude" class="input-group-text"></label>
+        </div>
+        <input asp-for="CentarVM.Latitude" class="form-control" />
+      </div>
+      <span asp-validation-for="CentarVM.Latitude" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="CentarVM.Longitude" class="input-group-text"></label>
+        </div>
+        <input asp-for="CentarVM.Longitude" class="form-control" />
+      </div>
+      <span asp-validation-for="CentarVM.Longitude" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input type="submit" value="Snimi" class="btn btn-primary" />
+  </div>
+
+</form>

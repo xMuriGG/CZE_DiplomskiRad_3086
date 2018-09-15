@@ -1,0 +1,72 @@
+﻿@model GrupaIndexVM
+
+@{
+  ViewBag.Title = "Grupe";
+  Layout = "_Layout";
+}
+<div class="row">
+
+  <div class="col-sm-12 col-md-3 pl-4 pt-4 ">
+
+    <div id="kursKategorijeRadioDiv" class="btn-group-vertical btn-group-toggle w-100" data-toggle="buttons">
+      <label class="btn btn-light text-left @(!Model.KursKategorijeVM.Any(a=>a.Checked)?"active":"")">
+        <input type="radio" name="kategorije" autocomplete="off" value="0" />Sve kategorije
+      </label>
+      @foreach (var kk in Model.KursKategorijeVM)
+      {
+        <label class="btn btn-light text-left @(kk.Checked?"active":"") ">
+          <input type="radio" name="kategorije" autocomplete="off" value="@kk.KursKategorijaId" /> @kk.Naziv
+        </label>
+      }
+    </div>
+
+  </div>
+  <div class="container-fluid col-9 mt-2">
+    <div id="grupeDiv" length="6" class="card-deck"></div>
+  </div>
+</div>
+
+@section Scripts
+  {
+  <script type="text/javascript">
+    $(document).ready(function () {
+
+      var data = @(Json.Serialize(Model.GrupaClientListItemVM));
+      var grupeDiv = $("#grupeDiv");
+      GenerateListGroupCard(data, grupeDiv, "replace");
+      data = null;
+
+      //filtriranje grupa na klik na side filter
+      $("#kursKategorijeRadioDiv").on("click","label",
+        function () {
+          var kursKategorijaId=$(this).find("input[type='radio']").val();
+          GroupsAjaxCall("#grupeDiv", kursKategorijaId,"replace");
+        });
+
+      $("#grupeDiv").on({
+        mouseenter: function () {
+          $(this).find(".card-text").stop().animate({ height: "toggle", opacity: "toggle" }, 300);
+        },
+        mouseleave: function () {
+          $(this).find(".card-text").stop().animate({ height: "toggle", opacity: "toggle" }, 300);
+        }
+      }, ".card-group");
+
+      //Ucitavanje grupa kada se dosegne dno stranice
+      $(window).scroll(function() {
+        if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+          var kursId = $("#kursKategorijeRadioDiv label.active input").val();
+          GroupsAjaxCall("#grupeDiv", kursId, "append");
+          //console.log("scroll");
+        }
+      });
+
+
+      //$("#cardBodyKategorije").on("click", "input:checkbox",
+      //  function () {
+      //    $("#formSideFilter").submit();
+      //  });
+
+    });
+  </script>
+}

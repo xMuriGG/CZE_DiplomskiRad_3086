@@ -1,0 +1,19 @@
+﻿@model List<CZE.Web.Areas.AdministrativniRadnik.Models.KursVMs.KursKategorijaVM>
+
+@if (Model.Any())
+{
+  @*<li id="kategorijeDropDown" class="dropdown">
+    <a id="grupeDropdown" class="nav-link dropdown-toggle pl-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+    </a>*@
+
+  <div class="dropdown-menu" aria-labelledby="grupeDropdown">
+    <a class="dropdown-item" href=@($"/Grupa/Index/{0}")>Sve kategorije</a>
+    <div role="separator" class="dropdown-divider"></div>
+    @foreach (var kategorija in Model)
+    {
+      <a class="dropdown-item" href=@($"/Grupa/Index/{kategorija.KursKategorijaId}")>@kategorija.Naziv </a>
+    }
+  </div>
+  @*</li>*@
+}

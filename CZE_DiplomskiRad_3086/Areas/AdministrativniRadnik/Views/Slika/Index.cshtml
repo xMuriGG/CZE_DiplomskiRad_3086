@@ -1,0 +1,133 @@
+﻿@model List<CZE.Web.Areas.AdministrativniRadnik.Models.GrupaVMs.SlikaListItemVM>
+@{
+  ViewData["Title"] = "Index";
+  Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card border-info mb-3">
+  <div class="card-header bg-info">
+    <a asp-area="AdministrativniRadnik" asp-controller="Slika" asp-action="Create"       
+       ajax-call="da" ajax-modal-id="#slikaModal"
+       class="btn btn-info">
+      <i class="fa fa-fw fa-user-plus"></i> Slike
+    </a>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive ">
+      <table id="slikaDataTable" class="table table-hover w-100" cellspacing="0">
+        <thead>
+          <tr class="table-active">
+            <th scope="col">Id</th>
+            <th scope="col">@Html.DisplayNameFor(m => m[0].Naziv)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m[0].KursKategorijaNaziv)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m[0].SlikaUrl)</th>
+            <th scope="col" title="Težina slike u CZE bazi podataka">@Html.DisplayNameFor(m => m[0].TezinaSlike) KB</th>
+            <th scope="col">@Html.DisplayNameFor(m => m[0].SlikaThumb)</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+      </table>
+
+      <!-- Sakrivena dugmad za kloniranje u dataTable akcije koloni-->
+      <!-- Skrivena u tbody radi ajax-call="da" atributa-->
+      <table class="d-none">
+        <tbody>
+          <tr>
+            <td>
+              <div id="btnsHiddenGroup">
+                <a asp-area="AdministrativniRadnik" asp-controller="Slika" asp-action="Create"
+                   ajax-call="da" ajax-modal-id="#slikaModal"
+                   class="btn btn-outline-warning" title="Edit"><span class="fa fa-edit"></span></a>
+                <a asp-area="AdministrativniRadnik" asp-controller="Slika" asp-action="Delete"
+                   ajax-call="da" datatable-id="#slikaDataTable" 
+                   data-toggle="confirmation" data-content="Da li ste sigurni da želite obrisati sliku?" title="Obrisati?"
+                   class="btn btn-outline-danger" ><span class="fa fa-trash"></span></a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- \Sakrivena dugmad za kloniranje u dataTable akcije koloni-->
+    </div>
+  </div>
+  @*<div class="card-footer small text-muted">Updated @DateTime.Now.ToString("g")</div>*@
+</div><!-- \Example DataTables Card-->
+<!-- Modal-->
+<div id="slikaModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="slikaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="slikaModalLabel">Slika</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- \Modal-->
+
+@section Scripts
+  {
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var btnsHiddenGroup = $("#btnsHiddenGroup").attr("id", "");
+      initializeDataTable(btnsHiddenGroup);
+    });
+
+    function initializeDataTable(btnsHiddenGroup) {
+      $("#slikaDataTable").DataTable({
+        processing: true,
+        serverSide: true,
+        order: [],
+        ajax: {
+          "url": "/AdministrativniRadnik/Slika/GetSlikeDataTable",
+          "method": "post"
+        },
+        columns: [
+          { data: "slikaId", visible: false },
+          { data: "naziv" },
+          { data: "kursKategorijaNaziv" },
+          {
+            data: "slikaUrl", render: function (data, type, row) {
+              var htmlString = "";
+              if (data) {
+                htmlString += "<a href='" + data + "'>" + "Link</a >";
+              }
+              return htmlString;
+            }, orderable: false
+          },
+          { data: "tezinaSlike", orderable: false },
+          {
+            data: "slikaThumb", render: function (data, type, row) {
+              if (data) {
+                return "<img class='img-thumbnail' width='100px' height='100px' src='data:image;base64," + data + "' />";
+              } else {
+                return "<img class='img-thumbnail' width='100px' height='100px' src='" + row.slikaUrl + "' />";;
+              }
+            }, orderable: false
+          },
+          {
+            data: null,
+            orderable: false,
+            render: function (data, type, row) {
+              var tempGroup = btnsHiddenGroup.clone();
+              tempGroup.find("a").each(function () {
+                $(this).attr("href", $(this).attr("href") + "/" + row.slikaId);
+              });
+
+              return tempGroup.html();
+            }
+          }
+
+        ]
+      }
+      );
+    }
+  </script>
+}

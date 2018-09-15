@@ -1,0 +1,23 @@
+﻿@model CZE.Web.Areas.AdministrativniRadnik.Models.KursVMs.KursVM
+@{
+  Layout = null;
+}
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col" class="w-25"></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th class="text-info" scope="row">@Html.DisplayNameFor(m => m.Naziv)</th>
+      <td>@Html.DisplayFor(m => m.Naziv)</td>
+    </tr>
+    <tr>
+      <th class="text-info" scope="row">@Html.DisplayNameFor(m => m.Opis)</th>
+      <td>@Html.DisplayFor(m => m.Opis)</td>
+    </tr>
+
+  </tbody>
+</table>

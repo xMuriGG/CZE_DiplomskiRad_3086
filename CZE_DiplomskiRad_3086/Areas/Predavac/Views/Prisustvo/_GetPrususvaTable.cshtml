@@ -1,0 +1,84 @@
+﻿@model CZE.Web.Areas.Predavac.Models.PrisustvaVMs.PrisustvoTableVM
+
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead class="thead-light">
+      <tr>
+        <th>#Kandidat</th>
+        @foreach (var pt in Model.PrisustvoTerminiVM)
+        {
+          <th class="text-center">@pt.DateTime [@pt.Casova]</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var k in Model.KandidatiPrisustvoVM)
+      {
+        <tr>
+          <th class="bg-info text-white">@k.OsobaNaziv</th>
+          @foreach (var p in Model.PrisustvoTerminiVM.SelectMany(s => s.Prisustva.Where(w => w.GrupaKandidatiId == k.GrupaKandidatiId)))
+          {
+            <td class="text-center">
+              <a asp-area="Predavac" asp-controller="Prisustvo" asp-action="PrisustvoStatusChange"
+                 asp-route-prisustvoId="@p.PrisustvoId" asp-route-grupaId="@Model.GrupaId"
+                 ajax-call="da" ajax-modal-id="#grupaModal"
+                 class="btn btn-outline-@(p.Prisutan ? "success" : "danger")">
+                <span class="fa fa-@(p.Prisutan ? "check" : "times")"></span>
+              </a>
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+    <tfoot class="bg-secondary">
+      <tr>
+        <td></td>
+        @foreach (var pt in Model.PrisustvoTerminiVM)
+        {
+          <td class="text-center">
+            <a asp-area="Predavac" asp-controller="Prisustvo" asp-action="Delete" asp-route-id="@pt.PrisustvoTerminId"
+               ajax-call="da" ajax-modal-id="#grupaModal"
+               data-toggle="confirmation" data-content="Da li ste sigurni da želite obrisati termin?"
+               class="btn btn-outline-dark" title="Delete"><span class="fa fa-trash"></span></a>
+          </td>
+        }
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+@*<div class="col-3 w-100 p-0 ">
+    <form>
+      <div class="">
+        <table class="table ">
+          <thead>
+            <tr>
+              <td colspan="2">
+                <input type="datetime-local" class="form-control" />
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var k in Model.KandidatPrisustvoVM)
+        {
+          <tr>
+            <td>
+              @k.OsobaNaziv
+            </td>
+            <td class="text-center">
+              <input type="checkbox"/>
+            </td>
+          </tr>
+    }
+            <tr>
+              <td class="text-center">
+                <input type="submit" value="Dodaj" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+
+  </div>*@

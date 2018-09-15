@@ -1,0 +1,21 @@
+﻿@model object
+
+@{
+    Layout = null;
+    byte[] slika = (byte[])ViewData["slika"];
+    byte[] slikaResize = (byte[])ViewData["slikaResize"];
+    byte[] slikaCrop = (byte[])ViewData["slikaCrop"];
+    byte[] slikaThumb = (byte[])ViewData["slikaThumb"];
+}
+<div class="row mb-1">
+  <img src="data:image;base64,@Convert.ToBase64String(slika)"/>
+</div>
+<div class="row mb-1">
+  <img src="data:image;base64,@Convert.ToBase64String(slikaResize)"/>
+</div>
+<div class="row mb-1">
+  <img src="data:image;base64,@Convert.ToBase64String(slikaCrop)"/>
+</div>
+<div class="row mb-1">
+  <img src="data:image;base64,@Convert.ToBase64String(slikaThumb)"/>
+</div>

@@ -1,0 +1,31 @@
+﻿@model CZE.Web.Areas.AdministrativniRadnik.Models.KandidatVMs.KandidatVM
+<table class="table table-sm">
+  <thead>
+  <tr>
+    <th scope="col" class="w-25"></th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th class="text-info" scope="row">Datum upisa</th>
+    <td>@Html.DisplayFor(m=>m.DatumUpisa)</td>
+  </tr>
+  <tr>
+    <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.Biljeske)</th>
+    <td>@Html.DisplayFor(model => model.Biljeske)</td>
+  </tr>
+  <tr>
+    <th class="text-info" scope="row">Akcije</th>
+    <td>
+      <a asp-area="AdministrativniRadnik" asp-controller="Kandidat" asp-action="Create" asp-route-id="@Model.KandidatId"
+         ajax-call="da" ajax-update="#kandidatDetails"
+         class="btn btn-outline-warning" title="Edit"><span class="fa fa-edit"></span></a>
+      <a asp-area="AdministrativniRadnik" asp-controller="Kandidat" asp-action="Delete" asp-route-id="@Model.KandidatId"
+         ajax-call="da" ajax-update="#modalBodyContent" datatable-id="#osobaDataTable"
+         data-toggle="confirmation" data-content="Da li ste sigurni da želite obrisati kandidata?"
+         class="btn btn-outline-danger" title="Delete"><span class="fa fa-trash"></span></a>
+    </td>
+  </tr>
+  </tbody>
+</table>

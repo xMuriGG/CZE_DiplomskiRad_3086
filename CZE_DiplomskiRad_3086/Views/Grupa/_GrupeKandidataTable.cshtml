@@ -1,0 +1,60 @@
+﻿@using CZE.Data.Models
+@model System.Collections.Generic.List<CZE.Web.Areas.AdministrativniRadnik.Models.GrupaVMs.GrupaKandidataVM>
+@{
+  bool zavrsene = Model.Any(a => a.Status == GrupaStatus.Zavrsena);
+}
+
+@if (Model?.Any() ?? false)
+{
+  <div class="table-responsive">
+    <table id="grupeKandidataTable" class="table w-100">
+      <thead>
+        <tr>
+          <th>@Html.DisplayNameFor(m => m[0].Naziv)</th>
+          <th>@Html.DisplayNameFor(m => m[0].Pocetak)</th>
+          <th>Kurs</th>
+          <th>@Html.DisplayNameFor(m => m[0].ZaposlenikNaziv)</th>
+          <th>@Html.DisplayNameFor(m => m[0].CentarLokacija)</th>
+          <th>@Html.DisplayNameFor(m => m[0].Uplaceno)</th>
+          @if (zavrsene)
+          {
+            <th></th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model)
+        {
+          <tr>
+            <td>@Html.DisplayFor(modelItem => item.Naziv)</td>
+            <td>@Html.DisplayFor(modelItem => item.Pocetak)</td>
+            <td>
+              <a tabindex="0" class="btn btn-light" role="button" data-toggle="popover" data-trigger="focus"
+                 data-content="@item.KursKategorijaNaziv->@item.KursTipNaziv->@item.KursNaziv"><span class="fa fa-book"></span></a>
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.ZaposlenikNaziv)</td>
+            <td>@Html.DisplayFor(modelItem => item.CentarLokacija)</td>
+            <td>@item.Cijena / @(item.Uplaceno ?? "0.00") KM</td>
+
+            @if (zavrsene && item.Odobren)
+            {
+              bool ocjena = item.Ocjena != null;
+              <td class="text-right">
+                <a asp-area="Kandidat" asp-controller="Ocjena" asp-action="Index" asp-route-id="@item.GrupaKandidatiId"
+                   ajax-call="da" ajax-modal-id="#grupaKandidataModal"
+                   class="btn btn-outline-@(ocjena?"warning":"secondary")" title="@(ocjena?"Pogledaj ocjenu":"Ocjeni grupu")">
+                  <span class="fa fa-star"></span>
+                </a>
+              </td>
+            }
+
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
+else
+{
+  <p> Trenutno nema zapisa ubazi. </p>
+}

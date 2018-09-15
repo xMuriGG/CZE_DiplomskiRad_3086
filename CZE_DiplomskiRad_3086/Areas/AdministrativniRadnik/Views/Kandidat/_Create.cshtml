@@ -1,0 +1,27 @@
+﻿@model CZE.Web.Areas.AdministrativniRadnik.Models.KandidatVMs.KandidatCreateVM
+
+
+<form id="frmCreateKandidat" asp-area="AdministrativniRadnik" asp-controller="Kandidat" asp-action="Create"
+      ajax-call="da" ajax-update="#modalBodyContent" datatable-id="#osobaDataTable">
+  
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+  <div class="form-group">
+    <input asp-for="OsobaId" class="form-control" type="hidden"/>
+    <input asp-for="KandidatVM.KandidatId" class="form-control" type="hidden"/>
+    <input asp-for="OsobaNaziv" class="form-control" type="hidden"/>
+  </div>
+
+  <div class="form-group row">
+    <label asp-for="KandidatVM.Biljeske" class="col-sm-4 col-form-label"></label>
+    <div class="col-sm-8">
+      <textarea asp-for="KandidatVM.Biljeske" class="form-control" placeholder="Opcionalne bilješke o kandidatu."></textarea>
+    </div>
+    <span asp-validation-for="KandidatVM.Biljeske" class="text-danger"></span>
+  </div>
+
+  <br/>
+  <div class="form-group">
+    <input id="BtnKandidatPromote" type="submit" value=@(Model.KandidatVM == null ? "Promote" : "Snimi") class="btn btn-default"/>
+  </div>
+</form>

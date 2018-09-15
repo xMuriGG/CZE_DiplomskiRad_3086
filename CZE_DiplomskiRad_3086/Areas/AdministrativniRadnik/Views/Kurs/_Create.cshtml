@@ -1,0 +1,53 @@
+﻿@model CZE.Web.Areas.AdministrativniRadnik.Models.KursVMs.KursCreateVM
+@{
+  Layout = null;
+}
+<div class="card">
+  <div class="card-header text-white bg-info">
+    Kurs
+  </div>
+  <div class="card-body">
+
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a asp-area="AdministrativniRadnik" asp-controller="Kurs" asp-action="KursTable" asp-route-kursTipId="@Model.KursTipId"
+           ajax-call="da" ajax-update="#kursBodyDiv">Kursevi</a>
+      </li>
+      <li class="breadcrumb-item active">Create</li>
+    </ol>
+    <br />
+
+
+    <form asp-area="AdministrativniRadnik" asp-controller="Kurs" asp-action="Create" ajax-call="da" ajax-update="#kursBodyDiv">
+      <input asp-for="KursVM.KursId" class="form-control" type="hidden" />
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label asp-for="KursVM.KursTipId" class="input-group-text"></label>
+            </div>
+            <select asp-for="KursVM.KursTipId" asp-items="@Model.KursTipovi" class="form-control">
+              <option></option>
+            </select>
+          </div>
+          <span asp-validation-for="KursVM.KursTipId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-6">
+          <input asp-for="KursVM.Naziv" class="form-control" placeholder="@Html.DisplayNameFor(m => m.KursVM.Naziv)" />
+          <span asp-validation-for="KursVM.Naziv" class="text-danger"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <textarea asp-for="KursVM.Opis" class="form-control" placeholder="Opciona opis kursa"></textarea>
+        <span asp-validation-for="KursVM.Opis" class="text-danger"></span>
+      </div>
+
+      <div class="form-group">
+        <input type="submit" value="Snimi" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
+</div>

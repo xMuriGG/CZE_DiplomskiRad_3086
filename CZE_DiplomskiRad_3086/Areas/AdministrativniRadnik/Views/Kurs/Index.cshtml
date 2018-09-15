@@ -1,0 +1,80 @@
+﻿@using CZE.Data.Models
+@using CZE.Web.Util.Helper
+@model CZE.Web.Areas.AdministrativniRadnik.Models.KursVMs.IndexVM
+@{
+    ViewData["Title"] = "Kursevi";
+    KorisnickiNalog nalog = ViewData["nalog"] as KorisnickiNalog ?? await Context.GetLogiraniKorisnik();
+    ViewData["nalog"] = nalog;
+}
+
+
+
+<div class="row mt-1">
+  <div class="col-sm-12 col-md-4 col-lg-3 bg-light">
+    <div id="kursKategorijaCard" class="card  mb-3">
+      <div class="card-header text-center text-white bg-dark">
+
+        <a id="btnAddKursKategoriju" class="btn btn-dark @(nalog==null || nalog.UlogaKorisnika==UlogeKorisnika.Predavac?"disabled":"")" 
+           ajax-call="da" ajax-update="#kursKategorijaCardBody"
+           asp-area="AdministrativniRadnik" asp-controller="KursKategorija" asp-action="Create">
+          <i class="fa fa-fw fa-plus"></i> Kategorije
+        </a>
+      </div>
+      <div id="kursKategorijaCardBody" class="card-body bg-light pr-1">
+        <div class="list-group text-center">
+          @{Html.RenderPartial("~/Areas/AdministrativniRadnik/Views/KursKategorija/_KursKategorijaTable.cshtml", Model.KursKategorije);}
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="w-100 d-block d-sm-none"></div>
+
+  <div class="col-sm-12 col-md-8 col-lg-9">
+    <div class="card">
+      <div class="card-header text-white bg-primary">
+        <a id="btnAddKursTip" class="btn btn-primary @(nalog==null || nalog.UlogaKorisnika==UlogeKorisnika.Predavac?"disabled":"")" 
+           ajax-call="da" ajax-update="#kursTipCardBody"
+           asp-area="AdministrativniRadnik" asp-controller="KursTip" asp-action="Create">
+          <i class="fa fa-fw fa-plus"></i> Kurs tipovi
+        </a>
+      </div>
+      <div id="kursTipCardBody" class="card-body">
+        <div class="table-responsive">
+          @{Html.RenderPartial("~/Areas/AdministrativniRadnik/Views/KursTip/_KursTipTable.cshtml", Model.KursTipovi);}
+        </div>
+
+      </div>
+    </div>
+
+
+    <div id="kursBodyDiv" class="mt-3">
+
+    </div>
+
+  </div>
+</div>
+
+<div class="modal fade" id="kursModal" tabindex="-1" role="dialog" aria-labelledby="kursModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="kursModalLabel">Kurs</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+@*@section Scripts
+    {
+    <script src="~/lib/my-custom-scripts/jsCZE.js"></script>
+  }*@

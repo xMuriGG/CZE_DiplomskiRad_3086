@@ -1,0 +1,100 @@
+﻿
+@{
+  ViewData["Title"] = "Index";
+  Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="container">
+  <a id="testBtn" class="btn btn-large btn-primary" data-toggle="confirmation" data-title="Open Google?"
+     href="https://google.com" target="_blank">Confirmation</a>
+  <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+    Popover on top
+  </button>
+
+</div>
+<br />
+<br />
+<div class="container">
+  <button class="btn btn-danger" onclick="createAlert('Opps!','Something went wrong','Here is a bunch of text about some stuff that happened.','danger','pageMessages',true,false);">Add Danger Alert</button>
+  <button class="btn btn-success" onclick="createAlert('','Nice Work!','Here is a bunch of text about some stuff that happened.','success','pageMessages',true);">Add Success Alert</button>
+  <button class="btn btn-info" onclick="createAlert('BTDubs','','Here is a bunch of text about some stuff that happened.','info','pageMessages',false);">Add Info Alert</button>
+  <button class="btn btn-warning" onclick="createAlert('','','Here is a bunch of text about some stuff that happened.','warning','pageMessages',false);">Add Warning Alert</button>
+</div>
+<div class="card-body">
+  <div class="table-responsive">
+
+    <table class="table table-hover" id="myDataTable">
+      @*id="dataTable" inicijalizira datatable plugin*@
+      <thead>
+        <tr>
+          <td>GradId</td>
+          <td>Naziv</td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>
+
+@section Scripts
+  {
+  <script>
+    $(document).ready(function () {
+      $("#myDataTable").DataTable({
+        processing: true,
+        serverSide: true,
+        ordering: true,
+        ajax: {
+          "url": "/Test/GetOsobe",
+          "type": "POST"
+        },
+        columns: [
+          { "data": "gradId" },
+          { "data": "naziv" }
+        ]
+        //,initComplete: function(parameters) {}
+
+      });
+
+
+      $('[data-toggle="popover"]').popover();
+      //$('[data-toggle=confirmation]').confirmation({
+      //  rootSelector: '[data-toggle=confirmation]',
+      //  // other options
+      //});
+
+
+    });
+    //filtriranje data tabele na enter
+    $(document).on("preInit.dt", function () {
+      var $dbFilter = $(".dataTables_filter ");
+
+      var $sb = $dbFilter.find("input[type='search']");
+      $sb.attr("placeholder", "Search");
+      //label fix
+      var label = $dbFilter.find("label");
+      label.html("");
+      label.append($sb);
+      $sb.wrap("<div class='input-group'></div>");
+
+      // remove current handler
+      $sb.off();
+      // Add key hander
+      $sb.on("keypress", function (evtObj) {
+        if (evtObj.keyCode == 13) {
+          $('#myDataTable').DataTable().search($sb.val()).draw();
+        }
+      });
+
+      // add button and button handler
+      var $btn = $("<button class='btn btn-outline-secondary' type='button'>Go</button>");
+      $sb.after($btn);
+      $btn.wrap("<div class='input-group-append'></div>");
+      $btn.on("click", function (evtObj) {
+        $('#myDataTable').DataTable().search($sb.val()).draw();
+      });
+
+    });
+  </script>
+}

@@ -1,0 +1,36 @@
+﻿@model CZE.Web.Areas.AdministratorSistema.Models.KorisnickaLozinkaVM
+
+<form asp-area="AdministratorSistema" asp-controller="KorisnickiNalog" asp-action="ChangeLozinka">
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+  <input asp-for="KorisnickiNalogId" hidden />
+  
+  <div class="form-group">
+    <div class="input-group ">
+      <div class="input-group-prepend">
+        <label asp-for="StaraLozinka" class="input-group-text"></label>
+      </div>
+      <input asp-for="StaraLozinka" class="form-control" />
+    </div>
+    <span asp-validation-for="StaraLozinka" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <div class="input-group ">
+      <div class="input-group-prepend">
+        <label asp-for="NovaLozinka" class="input-group-text"></label>
+      </div>
+      <input asp-for="NovaLozinka" class="form-control" />
+    </div>
+    <span asp-validation-for="NovaLozinka" class="text-danger"></span>
+  </div>  
+  <div class="form-group">
+    <div class="input-group ">
+      <div class="input-group-prepend">
+        <label asp-for="PotvrdnaLozinka" class="input-group-text"></label>
+      </div>
+      <input asp-for="PotvrdnaLozinka" class="form-control" />
+    </div>
+    <span asp-validation-for="PotvrdnaLozinka" class="text-danger"></span>
+  </div>
+
+  <input class="btn btn-primary" type="submit" value="Snimi"/>
+</form> 

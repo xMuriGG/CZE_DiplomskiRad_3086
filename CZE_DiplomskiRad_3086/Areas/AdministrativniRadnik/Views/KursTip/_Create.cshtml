@@ -1,0 +1,135 @@
+﻿@model CZE.Web.Areas.AdministrativniRadnik.Models.KursVMs.KursTipCreateVM
+@{
+  Layout = null;
+}
+<!-- Breadcrumbs-->
+<ol class="breadcrumb mb-0">
+  <li class="breadcrumb-item">
+    <a asp-area="AdministrativniRadnik" asp-controller="KursTip" asp-action="GetKursTipTable"
+       ajax-call="da" ajax-update="#kursTipCardBody">Kurs tipovi</a>
+  </li>
+  <li class="breadcrumb-item active">Create</li>
+</ol>
+<br />
+
+<form asp-area="AdministrativniRadnik" asp-controller="KursTip" asp-action="Create" ajax-call="da" ajax-update="#kursTipCardBody">
+
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+  <input asp-for="KursTipVm.KursTipId" class="form-control" type="hidden" />
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="KursTipVm.KursKategorijaId" class="input-group-text"></label>
+        </div>
+        <select asp-for="KursTipVm.KursKategorijaId" asp-items="@Model.KursKategorije" class="form-control">
+          <option></option>
+        </select>
+      </div>
+      <span asp-validation-for="KursTipVm.KursKategorijaId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col-md-6">
+      <input asp-for="KursTipVm.Naziv" class="form-control" placeholder="@Html.DisplayNameFor(m => m.KursTipVm.Naziv)" />
+      <span asp-validation-for="KursTipVm.Naziv" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="input-group ">
+        <div class="input-group-prepend">
+          <label asp-for="KursTipVm.Casova" class="input-group-text"></label>
+        </div>
+        <input asp-for="KursTipVm.Casova" class="form-control" />
+      </div>
+      <span asp-validation-for="KursTipVm.Casova" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="KursTipVm.Cijena" class="input-group-text"></label>
+        </div>
+        <input asp-for="KursTipVm.Cijena" class="form-control" />
+        <div class="input-group-append">
+          <span class="input-group-text">.00 KM</span>
+        </div>
+      </div>
+      <span asp-validation-for="KursTipVm.Cijena" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <textarea asp-for="KursTipVm.Opis" class="form-control" placeholder="Obavezan opis tipa kursa"></textarea>
+    <span asp-validation-for="KursTipVm.Opis" class="text-danger"></span>
+  </div>
+
+  <div class="form-group">
+    <input type="submit" value="Snimi" class="btn btn-primary" />
+  </div>
+</form>
+
+
+
+@*<div class="row pl-md-5">
+    <div class="col-md-12 col-lg-11">
+      <form asp-area="AdministrativniRadnik" asp-controller="KursTip" asp-action="Create" ajax-call="da" ajax-update="#kursTipCardBody">
+        <div class="form-group">
+          <input asp-for="KursTipVm.KursTipId" class="form-control" type="hidden" />
+        </div>
+        <div class="form-group row">
+          <label asp-for="KursTipVm.KursKategorijaId" class="col-4 col-md-3 col-form-label"></label>
+          <div class="col-sm-8">
+            <select asp-for="KursTipVm.KursKategorijaId" asp-items="@Model.KursKategorije" class="form-control">
+              <option></option>
+            </select>
+          </div>
+          <span asp-validation-for="KursTipVm.KursKategorijaId" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+          <label asp-for="KursTipVm.Naziv" class="col-4 col-md-3 col-form-label"></label>
+          <div class="col-sm-8">
+            <input asp-for="KursTipVm.Naziv" class="form-control" />
+          </div>
+          <span asp-validation-for="KursTipVm.Naziv" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+          <label asp-for="KursTipVm.Casova" class="col-4 col-md-3 col-form-label"></label>
+          <div class="col-sm-8">
+            <input asp-for="KursTipVm.Casova" class="form-control" />
+          </div>
+          <span asp-validation-for="KursTipVm.Casova" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="KursTipVm.Cijena" class="col-4 col-md-3 col-form-label"></label>
+            <div class="col-sm-8">
+          <div class="input-group">
+              <input asp-for="KursTipVm.Cijena" class="form-control" />
+            <div class="input-group-append">
+              <span class="input-group-text">.00 KM</span>
+            </div>
+            </div>
+          </div>
+            <span asp-validation-for="KursTipVm.Cijena" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+          <label asp-for="KursTipVm.Opis" class="col-4 col-md-3 col-form-label"></label>
+          <div class="col-sm-8">
+            <textarea asp-for="KursTipVm.Opis" class="form-control" placeholder="Obavezan opis tipa kursa"></textarea>
+          </div>
+          <span asp-validation-for="KursTipVm.Opis" class="text-danger"></span>
+        </div>
+
+        <br />
+        <div class="form-group">
+          <input type="submit" value="Snimi" class="btn btn-primary" />
+        </div>
+      </form>
+    </div>
+  </div>*@
+

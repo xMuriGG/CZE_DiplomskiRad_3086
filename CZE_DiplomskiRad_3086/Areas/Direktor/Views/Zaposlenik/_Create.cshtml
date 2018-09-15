@@ -1,0 +1,48 @@
+﻿@using CZE.Data.Models
+@model CZE.Web.Areas.Direktor.Models.ZaposlenikVMs.ZaposlenikCreateVM
+@{
+  Layout = null;
+}
+
+<form id="frmCreateZaposlenik" asp-area="Direktor" asp-controller="Zaposlenik" asp-action="Create"
+      ajax-call="da" ajax-update="#modalBodyContent" datatable-id="#osobaDataTable">
+  
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+  <div class="form-group">
+    <input asp-for="OsobaId" class="form-control" type="hidden"/>
+    <input asp-for="ZaposlenikVM.ZaposlenikId" class="form-control" type="hidden"/>
+    <input asp-for="OsobaNaziv" class="form-control" type="hidden"/>
+  </div>
+
+  <div class="form-group row">
+    <label asp-for="ZaposlenikVM.StepenObrazovanja" class="col-sm-4 col-form-label"></label>
+    <div class="col-sm-8">
+      <select asp-for="ZaposlenikVM.StepenObrazovanja" asp-items="@Html.GetEnumSelectList(typeof(Zaposlenik.StepeniObrazovanja))" class="form-control">
+        <option> </option>
+      </select>
+    </div>
+    <span asp-validation-for="ZaposlenikVM.StepenObrazovanja" class="text-danger"></span>
+  </div>
+
+  <div class="form-group row">
+    <label asp-for="ZaposlenikVM.BrojLicneKarte" class="col-sm-4 col-form-label"></label>
+    <div class="col-sm-8">
+      <input asp-for="ZaposlenikVM.BrojLicneKarte" class="form-control"/>
+    </div>
+    <span asp-validation-for="ZaposlenikVM.BrojLicneKarte" class="text-danger"></span>
+  </div>
+
+  <div class="form-group row">
+    <label asp-for="ZaposlenikVM.BrojRacuna" class="col-sm-4 col-form-label"></label>
+    <div class="col-sm-8">
+      <input asp-for="ZaposlenikVM.BrojRacuna" class="form-control"/>
+    </div>
+    <span asp-validation-for="ZaposlenikVM.BrojRacuna" class="text-danger"></span>
+  </div>
+
+  <br/>
+  <div class="form-group">
+    <input id="BtnZaposlenikPromote" type="submit" value=@(Model.ZaposlenikVM == null ? "Promote" : "Snimi") class="btn btn-default"/>
+  </div>
+</form>

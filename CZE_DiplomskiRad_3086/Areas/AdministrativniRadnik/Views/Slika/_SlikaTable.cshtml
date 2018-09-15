@@ -1,0 +1,48 @@
+﻿@model List<CZE.Web.Areas.AdministrativniRadnik.Models.GrupaVMs.SlikaListItemVM>
+@{
+//Layout = null;
+}
+
+@if (Model?.Any() ?? false)
+{
+  <table id="kursTipTable" class="table w-100">
+    <thead>
+    <tr>
+      <th>@Html.DisplayNameFor(m=>m[0].Naziv)</th>
+      <th>@Html.DisplayNameFor(m=>m[0].KursKategorijaNaziv)</th>
+      <th>@Html.DisplayNameFor(m=>m[0].SlikaUrl)</th>
+      <th>@Html.DisplayNameFor(m=>m[0].TezinaSlike)</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+      <tr>
+        <td>@Html.DisplayFor(modelItem => item.Naziv)</td>
+        <td>@Html.DisplayFor(modelItem => item.KursKategorijaNaziv)</td>
+        <td>@(string.IsNullOrEmpty(item.SlikaUrl)?"":$"<a href='{Html.DisplayFor(modelItem => item.SlikaUrl)}'>Link</a>")</td>
+        <td>@Html.DisplayFor(modelItem => item.TezinaSlike) b</td>
+        <td class="text-right">
+
+          <a asp-area="AdministrativniRadnik" asp-controller="Kurs" asp-action="KursTable" asp-route-kursTipId="@item.SlikaId"
+             ajax-call="da" ajax-update="#kursBodyDiv"
+             class="btn btn-outline-info" title="Kursevi"><span class="fa fa-th-list"></span></a>
+          <a asp-area="AdministrativniRadnik" asp-controller="KursTip" asp-action="Create" asp-route-id="@item.SlikaId"
+             ajax-call="da" ajax-update="#kursTipCardBody"
+             class="btn btn-outline-warning" title="Edit"><span class="fa fa-edit"></span></a>
+          @*<a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Details"
+              class="btn btn-outline-success" title="Details"><span class="fa fa-list-alt"></span></a>*@
+          <a asp-area="AdministrativniRadnik" asp-controller="KursTip" asp-action="Delete" asp-route-id="@item.SlikaId"
+             ajax-call="da" ajax-update="#kursTipCardBody"
+             class="btn btn-outline-danger" title="Delete"><span class="fa fa-trash"></span></a>
+        </td>
+      </tr>
+    }
+    </tbody>
+  </table>
+}
+else
+{
+  <span> Trenutno nema slika. </span>
+}

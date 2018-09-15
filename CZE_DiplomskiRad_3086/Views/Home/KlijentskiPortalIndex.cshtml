@@ -1,0 +1,111 @@
+﻿@using Microsoft.CodeAnalysis
+@model KlijentskiPortalVMs
+@{
+  ViewData["Title"] = "KlijentskiPortalIndex";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4"><strong>EKSA Education</strong></h1>
+    <p class="lead"><strong>EKSA, centar za cjeloživotno učenje, nudi vam usluge edukacije.</strong></p>
+  </div>
+</div>
+
+@if (Model.CentariVm.Any())
+{
+  <div class="container bg-light my-3 py-2">
+    <div class="section-headline text-center">
+      <h2>Poslovni centri</h2>
+    </div>
+
+    @{Html.RenderPartial("~/Views/Home/Centri.cshtml", Model.CentariVm);}
+
+  </div>
+}
+
+
+<div id="parallax" class="parallax pt-3">
+  <div class="section-headline text-center text-white ">
+    <h2>O centru</h2>
+  </div>
+  <div class="row text-white">
+    <div class="col-12 col-md-6 px-5">
+      <div class="card card-info">
+        <div class="card-body">
+          <h5 class="card-title">Centar za edukaciju</h5>
+          <ul>
+            <li>Certificiranje</li>
+            <li>Edukacija</li>
+            <li>ECDL</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 px-5">
+      <div class="card card-info">
+        <div class="card-body">
+          <h5 class="card-title">Zasto baš CZE</h5>
+          <ul>
+            <li>Priznati certifikati</li>
+            <li>Ovlašteni ECDL test centar u Sarajevu</li>
+            <li>Plaćanje na rate</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container bg-light mt-3 pt-2">
+  <div class="section-headline text-center">
+    <h2>Popularne grupe</h2>
+  </div>
+
+  <div id="grupeDiv" length="6" class="card-deck">
+  </div>
+  <div class="d-flex justify-content-center">
+    <a class="btn btn-outline-dark p-3" href="/Grupa/Index">Pogledaj ostale grupe</a>
+  </div>
+
+</div>
+
+
+
+@section Scripts
+  {
+  <script type="text/javascript">
+    $(document).ready(function () {
+      GroupsAjaxCall("#grupeDiv");
+
+      //event za card animation
+      $("#grupeDiv").on({
+        mouseenter: function () {
+          $(this).find(".card-text").stop().animate({ height: "toggle", opacity: "toggle" }, 300);
+        },
+        mouseleave: function () {
+          $(this).find(".card-text").stop().animate({ height: "toggle", opacity: "toggle" }, 300);
+        }
+      }, ".card-group");
+    });
+
+
+    function initMap() {
+      var mapDivs = $(".google-map");
+
+      mapDivs.each(function () {
+        var mapDiv = $(this);
+        // The location of Uluru
+        var uluru = { lat: parseFloat(mapDiv.attr("lat")), lng: parseFloat(mapDiv.attr("lng")) };
+        // The map, centered at Uluru
+        var map = new google.maps.Map(
+          mapDiv[0], { zoom: parseInt(mapDiv.attr("zoom")), center: uluru });
+        // The marker, positioned at Uluru
+        var marker = new google.maps.Marker({ position: uluru, map: map });
+
+      });
+    }
+
+  </script>
+}

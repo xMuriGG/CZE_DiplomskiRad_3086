@@ -1,0 +1,54 @@
+﻿@using CZE.Data.Models
+@using CZE.Web.Util.Helper
+@model List<CZE.Web.Areas.AdministrativniRadnik.Models.UplataKandidataVMs.UplataKandidataVM>
+@{
+  KorisnickiNalog nalog = ViewData["nalog"] as KorisnickiNalog ?? await Context.GetLogiraniKorisnik();
+  ViewData["nalog"] = nalog;
+}
+@if (Model?.Any() ?? false)
+{
+  <div class="table-responsive">
+
+    <table id="uplateKandidataTable" class="table w-100">
+      <thead>
+        <tr>
+          <th>@Html.DisplayNameFor(m => m[0].DatumUplate)</th>
+          <th>@Html.DisplayNameFor(m => m[0].Kolicina)</th>
+          <th>@Html.DisplayNameFor(m => m[0].Biljeske) </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model)
+        {
+          <tr>
+            <td>@Html.DisplayFor(modelItem => item.DatumUplate)</td>
+            <td>@Html.DisplayFor(modelItem => item.Kolicina) KM</td>
+            <td>@Html.DisplayFor(modelItem => item.Biljeske)</td>
+            <td class="text-right">
+              @if (nalog != null)
+              {
+                <a asp-area="AdministrativniRadnik" asp-controller="UplataKandidata" asp-action="Create" asp-route-id="@item.UplataKandidataId"
+                   ajax-call="da" ajax-update="#kandidatiBodyDiv"
+                   class="btn btn-outline-warning" title="Edit"><span class="fa fa-edit"></span></a>
+                if (nalog.UlogaKorisnika <= UlogeKorisnika.Direktor)
+                {
+                  <a asp-area="AdministrativniRadnik" asp-controller="UplataKandidata" asp-action="Delete" asp-route-id="@item.UplataKandidataId"
+                     ajax-call="da" ajax-update="#kandidatiBodyDiv"
+                     data-toggle="confirmation" data-content="Da li ste sigurni da želite obrisati uplatu?"
+                     class="btn btn-outline-danger" title="Delete"><span class="fa fa-trash"></span></a>
+                }
+              }
+
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
+else
+{
+   <br/>
+  <p> Trenutno nema zapisa za odabranu grupu </p>
+}

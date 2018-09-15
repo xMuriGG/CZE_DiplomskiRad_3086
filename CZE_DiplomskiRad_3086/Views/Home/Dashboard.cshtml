@@ -1,0 +1,263 @@
+﻿@using CZE.Data.Models
+@model DashboardVMs.DashboardVM
+@{
+  ViewData["Title"] = "Dashboard";
+  Layout = "_LayoutAdmin";
+}
+
+<div class="container">
+  <h3>Dashboard </h3>
+  <hr />
+  <!-- Icon Cards-->
+  <div class="row">
+    @if (Model.NePromovisaneOcjeneCount != 0)
+    {
+      <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-primary o-hidden h-100">
+          <div class="card-body">
+            <div class="card-body-icon">
+              <i class="fa fa-fw fa-user"></i>
+            </div>
+            <div class="mr-5">@Model.NePromovisaneOcjeneCount Osobe za promociju!</div>
+          </div>
+          <a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Index"
+             class="card-footer text-white clearfix small z-1">
+            <span class="float-left">Vidi osobe</span>
+            <span class="float-right">
+              <i class="fa fa-angle-right"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    }
+    @if (Model.AktivneGrupeCount != 0)
+    {
+      <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-success o-hidden h-100">
+          <div class="card-body">
+            <div class="card-body-icon">
+              <i class="fa fa-fw fa-users"></i>
+            </div>
+            <div class="mr-5">@Model.AktivneGrupeCount Aktivnih grupa!</div>
+          </div>
+          <a asp-area="AdministrativniRadnik" asp-controller="Grupa" asp-action="Index"
+             class="card-footer text-white clearfix small z-1">
+            <span class="float-left">Vidi grupe</span>
+            <span class="float-right">
+              <i class="fa fa-angle-right"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    }
+    @if (Model.CentriCount != 0)
+    {
+      <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-info o-hidden h-100">
+          <div class="card-body">
+            <div class="card-body-icon">
+              <i class="fa fa-fw fa-map"></i>
+            </div>
+            <div class="mr-5">@Model.CentriCount Poslovna centra!</div>
+          </div>
+          <a asp-area="Direktor" asp-controller="Centar" asp-action="Index"
+             class="card-footer text-white clearfix small z-1">
+            <span class="float-left">Vidi poslovne centre</span>
+            <span class="float-right">
+              <i class="fa fa-angle-right"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    }
+  </div><!--/ Icon Cards-->
+
+
+  <div class="row">
+    @if (Model.UplateKandidataChartVM?.GodineDDL != null)
+    {
+      <div class="card my-1 col-12 col-lg-6">
+        <div class="card-header bg-info text-center text-white">
+          Uplate kandidata
+        </div>
+        <div class="card-body py-2 px-0">
+          <div>
+            <select id="godineUplataDDL" class="col-6 col-md-3 ml-4 mb-2 form-control " asp-items="@Model.UplateKandidataChartVM.GodineDDL"></select>
+            <canvas id="uplateKandidataChart"></canvas>
+          </div>
+        </div>
+      </div>
+    }
+    @if (Model.BrojNovihKandidataChartVM?.GodineDDL != null)
+    {
+      <div class="card my-1 col-12 col-lg-6">
+        <div class="card-header bg-success text-center text-white">
+          Broj novih kandidata
+        </div>
+        <div class="card-body py-2 px-0">
+          <div>
+            <select id="godineBrojaKandidataDDL" class="col-6 col-md-3 ml-4 mb-2 form-control " asp-items="@Model.BrojNovihKandidataChartVM.GodineDDL"></select>
+            <canvas id="brojKandidataChart"></canvas>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+  @if (Model.OcjeneKandidata != null)
+  {
+    <div class="row my-3">
+      <div class="card col-12">
+        <div class="card-header border-warning">
+          <i class="fa fa-star text-warning"></i> Zadnje ocjene kandidata
+        </div>
+        <div class="list-group list-group-flush small">
+          @foreach (var ocjena in Model.OcjeneKandidata)
+          {
+            <div class="list-group-item list-group-item-action">
+              <strong>
+                <a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Details" asp-route-id="@ocjena.KandidatId">
+                  @ocjena.KandidatNaziv
+                </a>
+              </strong> je ocjenio grupu:
+              <strong>
+                <a asp-area="" asp-controller="Grupa" asp-action="Details" asp-route-id="@ocjena.GrupaId">
+                  @ocjena.GrupaNaziv
+                </a>
+              </strong>,
+              <span class="fa fa-star text-warning" title="ocjenom"></span>:
+              <strong>@ocjena.Vrijednost</strong>
+              <div>@ocjena.Opis</div>
+              <div class="text-muted smaller">@ocjena.DatumOcjene.ToString("d/MMM/yy h:mm")</div>
+            </div>
+          }
+          @*<a class="list-group-item list-group-item-action" href="#">View all activity...</a>*@
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+@section Scripts
+  {
+  <script type="text/javascript">
+    var xLabels, data;
+    xLabels=@Json.Serialize(Model.UplateKandidataChartVM.Data.X);
+    data=@Json.Serialize(Model.UplateKandidataChartVM.Data.Y);
+
+    var ctx = document.getElementById('uplateKandidataChart').getContext('2d');
+    var uplateKandidataChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        //labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','November','December'],
+        labels:xLabels,
+        datasets: [{
+          label: "Količina uplate",
+          //data: [12, 19, 3, 5, 2, 3,25,23,23,12,21,15],
+          data:data,
+
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: "rgba(75,192,192,0.4)",
+          borderColor: "rgba(75,192,192,1)",
+          borderCapStyle: "butt",
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: "miter",
+          pointBorderColor: "rgba(75,192,192,1)",
+          pointBackgroundColor: "#fff",
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: "rgba(75,192,192,1)",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointHoverBorderWidth: 2,
+          pointRadius: 5,
+          pointHitRadius: 10
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        //title: {
+        //  display:true,
+        //  text:"Uplate kandidata"
+        //},
+        scales: {
+          xAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Mjesec'
+            }
+          }],
+          yAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'KM'
+            },
+            ticks: {
+              beginAtZero:true
+            }
+          }]
+        }
+      }
+    });
+
+    xLabels =@Json.Serialize(Model.BrojNovihKandidataChartVM.Data.X);
+    data=@Json.Serialize(Model.BrojNovihKandidataChartVM.Data.Y);
+    var ctx = document.getElementById('brojKandidataChart').getContext('2d');
+    var brojKandidataChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels:xLabels,
+        datasets: [{
+          label: "# novih kandidata",
+          data:data,
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: "rgba(51, 173, 0,0.7)",
+          borderColor: "rgba(49, 132, 1,0.5)",
+          borderWidth: 2
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Mjesec'
+            }
+          }],
+          yAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: '# novih kandidata'
+            },
+            ticks: {
+              beginAtZero:true
+            }
+          }]
+        }
+      }
+    });
+
+    $(document).ready(function () {
+      var progressBar = $(".progress-bar");
+
+      $("#godineUplataDDL").change(function() {
+        ajaxChartCall(uplateKandidataChart, $(this).val(),"/Home/GetUplateKandidataChartModelData", progressBar);
+      });
+      $("#godineBrojaKandidataDDL").change(function () {
+        ajaxChartCall(brojKandidataChart, $(this).val(),"/Home/GetBrojKandidataChartModelData", progressBar);
+      });
+    });
+
+
+  </script>
+}

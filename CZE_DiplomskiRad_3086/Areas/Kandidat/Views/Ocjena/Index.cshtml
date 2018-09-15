@@ -1,0 +1,26 @@
+﻿@model CZE.Web.Areas.Kandidat.Models.OcjenaVMs.OcjenaVM
+
+<form asp-area="Kandidat" asp-controller="Ocjena" asp-action="Create"
+      ajax-call="da" ajax-modal-id="#grupaKandidataModal">
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+  <input asp-for="OcjenaId" class="form-control" type="hidden" />
+  <input asp-for="GrupaKandidatiId" class="form-control" type="hidden" />
+
+  <div class="form-group ">
+    <div class="input-group ">
+      <div class="input-group-prepend">
+        <label asp-for="Vrijednost" class="input-group-text"></label>
+      </div>
+      <input asp-for="Vrijednost" class="form-control" />
+    </div>
+    <span asp-validation-for="Vrijednost" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <textarea asp-for="Opis" class="form-control" placeholder="Opis ocjene je opcionalan."></textarea>
+    <span asp-validation-for="Opis" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <input type="submit" value="Ocjeni" class="btn btn-primary" />
+  </div>
+</form>

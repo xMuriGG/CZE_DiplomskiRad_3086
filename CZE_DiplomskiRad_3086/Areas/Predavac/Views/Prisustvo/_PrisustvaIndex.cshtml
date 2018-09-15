@@ -1,0 +1,11 @@
+﻿@model CZE.Web.Areas.Predavac.Models.PrisustvaVMs.PrisustvoIndexVM
+<div id="PrisustvaBodyId" class="row">
+
+  <div class="w-100">
+    @{ await Html.RenderPartialAsync("~/Areas/Predavac/Views/Prisustvo/_Create.cshtml", Model.PrisustvoTerminCreateVM);}
+  </div>
+
+  <div class="col-12">
+    @{ await Html.RenderPartialAsync("~/Areas/Predavac/Views/Prisustvo/_GetPrususvaTable.cshtml", Model.PrisustvoTableVM);}
+  </div>
+</div>

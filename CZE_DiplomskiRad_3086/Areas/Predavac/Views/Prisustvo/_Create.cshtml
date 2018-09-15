@@ -1,0 +1,31 @@
+﻿@model CZE.Web.Areas.Predavac.Models.PrisustvaVMs.PrisustvoTerminCreateVM
+
+<form asp-area="Predavac" asp-controller="Prisustvo" asp-action="Create"
+      ajax-call="da" ajax-modal-id="#grupaModal" ajax-update-onModelFail="parent" close-on-create="no"
+      class="pl-3 pr-3">
+
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+  <input asp-for="GrupaId" class="form-control" type="hidden" />
+
+  <div class="form-row">
+    <div class="form-group col-4">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="PrisustvoTerminVM.Casova" class="input-group-text"></label>
+        </div>
+        <input asp-for="PrisustvoTerminVM.Casova" class="form-control" />
+      </div>
+      <span asp-validation-for="PrisustvoTerminVM.Casova" class="text-danger"></span>
+    </div>
+    <div class="form-group col-5">
+      <input asp-for="PrisustvoTerminVM.DateTime" class="form-control" />
+      <span asp-validation-for="PrisustvoTerminVM.DateTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col-3">
+      <input type="submit" value="Dodaj termin" class="form-control"/>
+    </div>
+
+  </div>
+</form>

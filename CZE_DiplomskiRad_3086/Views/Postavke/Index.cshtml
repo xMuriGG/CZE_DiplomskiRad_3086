@@ -1,0 +1,68 @@
+﻿@using CZE.Web.Areas.AdministratorSistema.Models
+@using CZE.Web.Util.Helper
+
+@{
+  ViewData["Title"] = "Index";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+  var nalog = Context.GetLogiraniKorisnik().Result;
+}
+
+<div class="container">
+  <div class="section-headline text-center ">
+    <h2>Postavke računa</h2>
+  </div>
+
+  <table class="table table-sm ">
+    <thead>
+      @*<tr >
+          <th scope="col" class="w-25"></th>
+          <th class="p-0"></th>
+        </tr>*@
+    </thead>
+    <tbody>
+      <tr>
+        <th class="text-info w-25" scope="row">Korisnicko ime</th>
+        <td>
+          <div class="collapse show multi-collapse-kIme" id="kImeCollapse1">
+            <span class="text-muted">
+              @nalog.KorisnickoIme
+            </span>
+          </div>
+          <div class="collapse multi-collapse-kIme" id="kImeCollapse2">
+            @{Html.RenderPartial("~/Areas/AdministratorSistema/Views/KorisnickiNalog/_ChangeKorisnickoIme.cshtml",
+                  new KorisnickoImeVM(){KorisnickiNalogId = nalog.KorisnickiNalogId,KorisnickoIme = nalog.KorisnickoIme});}
+          </div>
+        </td>
+        <td class="text-right">
+          <a class="btn btn-outline-secondary"
+             data-target=".multi-collapse-kIme" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="kImeCollapse1 kImeCollapse2">
+            <span class="fa fa-edit"></span>
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <th class="text-info" scope="row">
+          Promjena lozinke
+        </th>
+        <td>
+          <div class="collapse show multi-collapse-kPass" id="kPassCollapse1">
+            <span class="text-muted">
+              promjeni lozinku
+            </span>
+          </div>
+          <div class="collapse multi-collapse-kPass" id="kPassCollapse2">        
+            @{Html.RenderPartial("~/Areas/AdministratorSistema/Views/KorisnickiNalog/_ChangeLozinka.cshtml",
+                  new KorisnickaLozinkaVM(){KorisnickiNalogId = nalog.KorisnickiNalogId});}
+          </div>
+        </td>
+        <td class="text-right">
+          <a class="btn btn-outline-secondary"
+             data-target=".multi-collapse-kPass" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="kPassCollapse1 kPassCollapse2">
+            <span class="fa fa-edit"></span>
+          </a>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>

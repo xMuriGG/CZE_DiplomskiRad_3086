@@ -1,0 +1,35 @@
+﻿@model CZE.Web.Areas.AdministrativniRadnik.Models.UplataKandidataVMs.UplataKandidataTableVM
+@*
+  For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div id="uplateBodyDiv">
+  <!--_Idex-->
+  <!--_UplateKandidataTable-->
+  <!--\_Index-->
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb mb-1">
+    <li class="breadcrumb-item">
+      <a asp-area="AdministrativniRadnik" asp-controller="GrupaKandidati" asp-action="GrupaKandidatiTable" asp-route-id="@Model.GrupaId"
+         ajax-call="da" ajax-modal-id="#grupaModal">Grupa kandidati</a>
+    </li>
+    <li class="breadcrumb-item active">Uplate kandidata <b>@Model.KandidatInfo</b></li>
+  </ol>
+
+  <div class="card">
+    <div class="card-header text-white bg-success">
+      <span>
+        <a id="btnAddGrupa" class="btn btn-success pb-2" ajax-call="da" ajax-update="#uplateKandidataCardBody"
+           asp-area="AdministrativniRadnik" asp-controller="UplataKandidata" asp-action="Create"
+           asp-route-grupaKandidatiId="@Model.GrupaKandidatiId">
+          <i class="fa fa-fw fa-plus"></i> Uplate
+        </a>
+        za grupu <b>@Model.GrupaKandidatiInfo</b>
+      </span>
+    </div>
+    <div id="uplateKandidataCardBody" class="card-body p-0">
+      @{ await Html.RenderPartialAsync("_UplateKandidataTable", Model.UplateKandidata);}
+    </div>
+  </div>
+</div>

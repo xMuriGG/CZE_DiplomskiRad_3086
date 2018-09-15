@@ -1,0 +1,256 @@
+﻿@using CZE.Data.Models
+@using CZE.Web.Util.Helper
+@{
+  KorisnickiNalog nalog = ViewData["nalog"] as KorisnickiNalog ?? await Context.GetLogiraniKorisnik();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>@ViewData["Title"]</title>
+
+  <environment include="Development">
+    <!-- Bootstrap core CSS-->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom fonts for this template-->
+    <link href="~/sb-admin/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+  </environment>
+  <environment exclude="Development">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.css"
+          asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  </environment>
+    <!-- Page level plugin CSS-->
+    <link href="~/sb-admin/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
+    <!-- Custom styles for this template-->
+    <link href="~/sb-admin/css/sb-admin.css" rel="stylesheet" />
+    <!-- Bootstrap alert with js CSS  https://codepen.io/codysechelski/pen/dYVwjb -->
+    <link href="~/lib/bootstrap-alerts/css/bootstrap-alerts.css" rel="stylesheet" />
+    <!--Animate CSS https://daneden.github.io/animate.css/-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark sidenav-toggled" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <a class="navbar-brand" href="/Home/Dashboard">CZE Admin</a>
+
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+
+
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Dashboard">
+            <i class="fa fa-fw fa-dashboard"></i>
+            <span class="nav-link-text">Dashboard</span>
+          </a>
+        </li>
+        @if (nalog.UlogaKorisnika != UlogeKorisnika.Predavac)
+        {
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Osobe">
+            <a class="nav-link" asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Index">
+              <i class="fa fa-fw fa-user"></i>
+              <span class="nav-link-text">Osobe</span>
+            </a>
+          </li>
+        }
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Kursevi">
+          <a class="nav-link" asp-area="AdministrativniRadnik" asp-controller="Kurs" asp-action="Index">
+            <i class="fa fa-fw fa-book"></i>
+            <span class="nav-link-text">Kursevi</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Grupe">
+          <a class="nav-link" asp-area="AdministrativniRadnik" asp-controller="Grupa" asp-action="Index">
+            <i class="fa fa-fw fa-users"></i>
+            <span class="nav-link-text">Grupe</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Centri">
+          <a class="nav-link" asp-area="Direktor" asp-controller="Centar" asp-action="Index">
+            <i class="fa fa-fw fa-map"></i>
+            <span class="nav-link-text">Centri</span>
+          </a>
+        </li>
+        @if (nalog.UlogaKorisnika != UlogeKorisnika.Predavac)
+        {
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Slike">
+            <a class="nav-link" asp-area="AdministrativniRadnik" asp-controller="Slika" asp-action="Index">
+              <i class="fa fa-fw fa-image"></i>
+              <span class="nav-link-text">Slike</span>
+            </a>
+          </li>
+        }
+        @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Ostalo">
+            <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+              <i class="fa fa-fw fa-wrench"></i>
+              <span class="nav-link-text">Ostalo</span>
+            </a>
+            <ul class="sidenav-second-level collapse" id="collapseComponents">
+              <li>
+                <a asp-area="AdministrativniRadnik" asp-controller="Slika" asp-action="Index">
+                  Slike
+                </a>
+              </li>
+            </ul>
+          </li>*@
+      </ul>
+
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="userDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-user-circle"></i>
+            <span>
+              @nalog.KorisnickoIme
+            </span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <h6 class="dropdown-header">Logirani korisnik:</h6>
+            <div class="dropdown-divider"></div>
+            <div class="w-100" align="center">
+              @nalog.KorisnickoIme
+              <img src="/slike/person-icon.png" style="height: 100px; width: 100px" class="img-thumbnail" />
+              @nalog.UlogaKorisnika.ToString()
+            </div>
+            <div class="dropdown-divider"></div>
+            <a asp-area="" asp-controller="Home" asp-action="KlijentskiPortalIndex"
+               class="dropdown-item">
+              <strong>CZE Client</strong>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a asp-area="@nameof(CZE.Web.Areas.AdministratorSistema)" asp-controller="KorisnickiNalog" asp-action="SessionsTable"
+               class="dropdown-item">
+              <strong>Sessions</strong>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a asp-area="" asp-controller="Autentifikacija" asp-action="Logout"
+               class="dropdown-item">
+              <strong>Logout</strong>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="pageMessages">
+
+  </div>
+
+  <div class="content-wrapper">
+    <div class="container-fluid ">
+      <!-- ProgressBar -->
+      <div class="progress fixed-top" style="height: 2px;">
+        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+
+
+
+
+      @RenderBody()
+
+
+    </div><!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <div>
+              © Copyright <span class="text-info">CZE</span>. All Rights Reserved
+            </div>
+            <div class="credits">
+              <span class="text-light">Aplikaciju uradio:</span> <span class="text-info">Muris Čengić</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <environment include="Development">
+      <!-- Bootstrap core JavaScript-->
+      <script src="~/lib/jquery/dist/jquery-3.3.1.min.js"></script>
+      <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment exclude="Development">
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+              asp-fallback-src="~/lib/jquery/dist/jquery-3.3.1.min.js"
+              asp-fallback-test="window.jQuery"
+              integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+              crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
+              asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+              asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+              integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
+              crossorigin="anonymous"></script>   
+    </environment>
+      <script src="~/lib/bootstrap-confirmation/bootstrap-confirmation.js"></script>
+      <!-- Core plugin JavaScript-->
+      <script src="~/lib/jquery/jquery-easing/jquery.easing.min.js"></script>
+      <!-- Page level plugin JavaScript-->
+      <script src="~/sb-admin/chart.js/Chart.min.js"></script>
+      <script src="~/sb-admin/datatables/jquery.dataTables.js"></script>
+      <script src="~/sb-admin/datatables/dataTables.bootstrap4.js"></script>
+
+      <!-- Custom scripts for all pages-->
+      <script src="~/sb-admin/js/sb-admin.min.js"></script>
+      <!-- Custom scripts for this page-->
+      @*<script src="~/sb-admin/js/sb-admin-datatables.min.js"></script>*@
+      @*<script src="~/sb-admin/js/sb-admin-charts.min.js"></script>*@
+
+      <!--Bootstrap alert with JavaScript-->
+      <script src="~/lib/bootstrap-alerts/js/bootstrap-alerts.js"></script>
+
+      <!--My Custom JavaScript-->
+      <script src="~/lib/my-custom-scripts/jsCZE.js"></script>
+    @{Html.RenderPartial("_ValidationScriptsPartial");}
+
+    @RenderSection("Scripts", required: false)
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+﻿@model LoginVM
+@{
+  string erorrPoruka = (string)ViewData["error_poruka"];
+}
+
+@if (erorrPoruka != null)
+{
+  <br />
+  <div class="alert alert-danger">
+    @erorrPoruka
+  </div>
+}
+
+<form asp-area="" asp-controller="Autentifikacija" asp-action="Login">
+
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+  <div class="form-group">
+    <label asp-for="Email">Email address</label>
+    <input asp-for="Email" class="form-control" placeholder="Enter email">
+    <span asp-validation-for="Email" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label asp-for="Lozinka">Password</label>
+    <input asp-for="Lozinka" class="form-control" placeholder="Password">
+    <span asp-validation-for="Lozinka" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <div class="form-check">
+      <label asp-for="ZapamtiMe" class="form-check-label">
+        <input asp-for="ZapamtiMe" class="form-check-input"> Remember Password
+      </label>
+    </div>
+  </div>
+  <input type="submit" class="btn btn-primary btn-block" value="Login" />
+</form>

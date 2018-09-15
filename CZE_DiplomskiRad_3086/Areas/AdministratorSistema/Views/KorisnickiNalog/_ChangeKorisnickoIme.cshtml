@@ -1,0 +1,12 @@
+﻿@model CZE.Web.Areas.AdministratorSistema.Models.KorisnickoImeVM
+
+<form asp-area="AdministratorSistema" asp-controller="KorisnickiNalog" asp-action="ChangeKorisnickoIme">
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+  <input asp-for="KorisnickiNalogId" hidden />
+  
+  <div class="form-group">
+    <input asp-for="KorisnickoIme" />
+    <span class="text-danger" asp-validation-for="KorisnickoIme"></span>
+  <input class="btn btn-primary" type="submit" value="Snimi"/>
+  </div>
+</form> 

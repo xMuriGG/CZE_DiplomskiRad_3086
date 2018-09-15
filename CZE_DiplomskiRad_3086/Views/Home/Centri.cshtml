@@ -1,0 +1,47 @@
+﻿@using CZE.Web.Areas.Direktor.Models
+@model List<CZE.Web.Areas.Direktor.Models.CentarVMs.CentarListItemVM>
+
+
+
+<div class="row">
+  @foreach (var centar in Model)
+  {
+    string collapseId="centar" + centar.CentarId;
+
+    <div class="col-12 col-md-6 p-1">
+      <div class="card card-shadow">
+        <h5 class="card-header map-card-header">
+          <a class="btn btn-link w-100" data-toggle="collapse" href="#@collapseId" role="button" 
+             aria-expanded="false" aria-controls="@collapseId">
+            @Html.DisplayFor(modelItem => centar.Naziv)
+          </a>
+
+        </h5>
+        <div class="collapse" id="@collapseId">
+          <div class="card-body pt-2 pb-2 bg-light">
+            <dl class="row dl-details m-0">
+              <dt class="col-sm-4">@Html.DisplayNameFor(modelItem => centar.Grad)</dt>
+              <dd class="col-sm-8">@Html.DisplayFor(modelItem => centar.Grad)</dd>
+              <dt class="col-sm-4">@Html.DisplayNameFor(modelItem => centar.Adresa)</dt>
+              <dd class="col-sm-8">@Html.DisplayFor(modelItem => centar.Adresa)</dd>
+              @if (!string.IsNullOrEmpty(centar.BrojTelefona))
+              {
+                <dt class="col-sm-4">@Html.DisplayNameFor(modelItem => centar.BrojTelefona)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(modelItem => centar.BrojTelefona)</dd>
+              }
+              <dt class="col-sm-4">@Html.DisplayNameFor(modelItem => centar.BrojMobitela)</dt>
+              <dd class="col-sm-8">@Html.DisplayFor(modelItem => centar.BrojMobitela)</dd>
+              <dt class="col-sm-4">@Html.DisplayNameFor(modelItem => centar.Email)</dt>
+              <dd class="col-sm-8">@Html.DisplayFor(modelItem => centar.Email)</dd>
+            </dl>
+          </div>
+        </div>
+        <div class="card-body border-top p-0">
+          <div class="google-map" lat="@centar.Latitude" lng="@centar.Longitude" zoom="15">
+            <p>Pristup na google-map je trenutno ograničen zbog prometa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

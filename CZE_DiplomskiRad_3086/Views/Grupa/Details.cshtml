@@ -1,0 +1,145 @@
+﻿@using CZE.Data.Models
+@using CZE.Web.Util.Helper
+@model CZE.Web.Areas.AdministrativniRadnik.Models.GrupaVMs.GrupaDetailsVM
+@{
+  ViewData["Title"] = "Detalji grupe";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+  KorisnickiNalog nalog = await Context.GetLogiraniKorisnik();
+}
+<div class=" grupa-details-title text-center section-headline text-white">
+  <h2 class="mt-4">@Model.Naziv</h2>
+</div>
+
+<div class="container">
+  <div class="summary-text border py-3 px-5 d-flex flex-wrap justify-content-around align-items-center">
+    <div>
+      <span class="fa fa-book" title="Kategorija"></span>
+      <strong>@Html.DisplayFor(m => m.KursDetails.KursKategorijaVM.Naziv)</strong>
+    </div>
+    <div>
+      <span class="fa fa-graduation-cap" title="@Html.DisplayNameFor(m => m.ZaposlenikNaziv)"></span>
+      <strong>@Html.DisplayFor(m => m.ZaposlenikNaziv)</strong>
+    </div>
+    <div>
+      <span class="fa fa-calendar" title="@Html.DisplayNameFor(m => m.Pocetak)"></span>
+      <strong>@Model.Pocetak.ToString("dd/MM")</strong>
+    </div>
+    <div>
+      <span class="fa fa-map-marker" title="@Html.DisplayNameFor(m => m.CentarGrad)"></span>
+      <strong>@Html.DisplayFor(m => m.CentarGrad)</strong>
+    </div>
+    <div>
+      <span class="fa fa-clock-o" title="@Html.DisplayNameFor(m => m.Casova)"></span>
+      <strong>@(Model.Casova ?? Model.KursDetails.KursTipVM.Casova)</strong>
+    </div>
+    <div>
+      <span class="fa fa-credit-card" title="@Html.DisplayNameFor(m => m.Cijena)"></span>
+      <strong>@(Model.Cijena ?? Model.KursDetails.KursTipVM.Cijena) KM</strong>
+    </div>
+    <div>
+      <span id="ocjenedt" class="" title="@Html.DisplayNameFor(m => m.Ocjena)">
+
+      </span>
+    </div>
+    <div>
+      @if (nalog != null)
+      {
+        if (!Model.LogiraniKandidatPrijavljen || (Model.LogiraniKandidatPrijavljen && Model.Odobren))
+        {
+          <a asp-area="" asp-controller="Grupa" asp-action="PrijavaUGrupu" asp-route-id="@Model.GrupaId"
+             class="btn @(Model.LogiraniKandidatPrijavljen ? "btn-danger" : "btn-success")">
+            @if (Model.LogiraniKandidatPrijavljen)
+            {
+              <span>Odjavi se</span>}
+            else
+            {<span>Prijavi se!</span>}
+          </a>
+        }
+      }
+      else
+      {
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Prijavi se!</button>
+      }
+    </div>
+  </div>
+
+  <dl class="row dl-details">
+    @*<dt class="col-sm-3">Kategorija</dt>
+      <dd class="col-sm-9">@Html.DisplayFor(m => m.KursDetails.KursKategorijaVM.Naziv)</dd>*@
+    @*<dt class="col-sm-3">@Html.DisplayNameFor(m => m.ZaposlenikNaziv)</dt>
+      <dd class="col-sm-9">@Html.DisplayFor(m => m.ZaposlenikNaziv)</dd>*@
+    <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Pocetak)</dt>
+    <dd class="col-sm-9">@Model.Pocetak @(Model.Kraj != null ? " - " + Model.Kraj.ToString() : "")</dd>
+    <dt class="col-sm-3">@Html.DisplayNameFor(m => m.CentarGrad)</dt>
+    <dd class="col-sm-9">@Html.DisplayFor(m => m.CentarNaziv), @Html.DisplayFor(m => m.CentarGrad) </dd>
+    @if (Model.Casova != null)
+    {
+      <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Casova)</dt>
+      <dd class="col-sm-9">
+        <span><small><del>@Model.KursDetails.KursTipVM.Casova</del></small> </span><span><b>@Model.Casova</b></span>
+        @*else
+          {
+            @Model.KursDetails.KursTipVM.Casova
+          }*@
+      </dd>
+    }
+    @if (Model.Cijena != null)
+    {
+      <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Cijena)</dt>
+      <dd class="col-sm-9">
+        <span><small><del>@Model.KursDetails.KursTipVM.Cijena</del></small> </span><span><b>@Model.Cijena KM</b></span>
+        @*else
+          {
+            <span>@Model.KursDetails.KursTipVM.Cijena KM</span>
+          }*@
+      </dd>
+    }
+    @*<dt class="col-sm-3">Ocjena kursa:</dt>
+      <dd id="ocjenedt" class="col-sm-9">
+
+      </dd>*@
+    @*<dt class="col-sm-3"></dt>
+      <dd class="col-sm-9">
+        @if (nalog != null)
+        {
+          if (!Model.LogiraniKandidatPrijavljen || (Model.LogiraniKandidatPrijavljen && Model.Odobren))
+          {
+            <a asp-area="" asp-controller="Grupa" asp-action="PrijavaUGrupu" asp-route-id="@Model.GrupaId"
+               class="btn @(Model.LogiraniKandidatPrijavljen ? "btn-danger" : "btn-success")">
+              @if (Model.LogiraniKandidatPrijavljen)
+              {
+                <span>Odjavi se</span>}
+              else
+              {<span>Prijavi se!</span>}
+            </a>
+          }
+        }
+        else
+        {
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Prijavi se!</button>
+        }
+      </dd>*@
+
+  </dl>
+  <h4>Detalji kursa</h4>
+  <dl class="row dl-details">
+    <dt class="col-sm-3">@Html.DisplayNameFor(m => m.KursDetails.KursVM.Naziv)</dt>
+    <dd class="col-sm-9">@Html.DisplayFor(m => m.KursDetails.KursVM.Naziv)</dd>
+    <dt class="col-sm-3">@Html.DisplayNameFor(m => m.KursDetails.KursTipVM.Opis)</dt>
+    <dd class="col-sm-9">@Html.DisplayFor(m => m.KursDetails.KursTipVM.Opis)</dd>
+  </dl>
+  <h4>Detalji tipa kursa</h4>
+  <dl class="row dl-details">
+    <dt class="col-sm-3">@Html.DisplayNameFor(m => m.KursDetails.KursTipVM.Naziv)</dt>
+    <dd class="col-sm-9">@Html.DisplayFor(m => m.KursDetails.KursTipVM.Naziv)</dd>
+    <dt class="col-sm-3">@Html.DisplayNameFor(m => m.KursDetails.KursTipVM.Opis)</dt>
+    <dd class="col-sm-9">@Html.DisplayFor(m => m.KursDetails.KursTipVM.Opis)</dd>
+  </dl>
+</div>
+
+@section Scripts
+  {
+  <script type="text/javascript">
+    $("#ocjenedt").html(GenerateStars(@Model.Ocjena));
+  </script>
+}

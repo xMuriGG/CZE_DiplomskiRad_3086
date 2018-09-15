@@ -1,0 +1,71 @@
+﻿@using CZE.Data.Models
+@using CZE.Web.Util.Helper
+@model CZE.Web.Areas.AdministrativniRadnik.Models.KursVMs.KursTablePartial
+@{
+  Layout = null;
+  KorisnickiNalog nalog = ViewData["nalog"] as KorisnickiNalog??await Context.GetLogiraniKorisnik();
+}
+
+<div class="card">
+  <div class="card-header text-white bg-info">
+    <a class="btn btn-info pb-2 @(nalog==null || nalog.UlogaKorisnika==UlogeKorisnika.Predavac?"disabled":"")" 
+       ajax-call="da" ajax-update="#kursBodyDiv"
+       asp-area="AdministrativniRadnik" asp-controller="Kurs" asp-action="Create" asp-route-kursTipId="@Model?.KursTipId">
+      <i class="fa fa-fw fa-plus"></i> Kursevi
+    </a>
+    @if (Model != null)
+    {<span>za tip kursa: <ins>@Model.KursTipNaziv</ins></span>}
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table id="kursTable" class="table w-100">
+        <thead>
+          <tr>
+            <th>Naziv</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (Model != null && Model.Kursevi.Any())
+          {
+            foreach (var item in Model.Kursevi)
+            {
+              <tr>
+                <td>@Html.DisplayFor(modelItem => item.Naziv)</td>
+
+                <td class="text-right">
+                  @if (nalog != null)
+                  {
+                    <a asp-area="AdministrativniRadnik" asp-controller="Kurs" asp-action="Details" asp-route-id="@item.KursId"
+                       ajax-call="da" ajax-modal-id="#kursModal"
+                       class="btn btn-outline-success" title="Details"><span class="fa fa-list-alt"></span></a>
+                    if (nalog.UlogaKorisnika != UlogeKorisnika.Predavac)
+                    {
+                      <a asp-area="AdministrativniRadnik" asp-controller="Kurs" asp-action="Create"
+                         asp-route-id="@item.KursId" asp-route-kursTipId="@Model.KursTipId"
+                         ajax-call="da" ajax-update="#kursBodyDiv"
+                         class="btn btn-outline-warning" title="Edit"><span class="fa fa-edit"></span></a>
+                      <a asp-area="AdministrativniRadnik" asp-controller="Kurs" asp-action="Delete" asp-route-id="@item.KursId"
+                         ajax-call="da" ajax-update="#kursBodyDiv"
+                         data-toggle="confirmation" data-content="Da li ste sigurni da želite obrisati kurs?" data-popout="true" data-singleton="true"
+                         class="btn btn-outline-danger" title="Delete"><span class="fa fa-trash"></span></a>
+                    }
+                  }
+                </td>
+              </tr>
+            }
+          }
+          else
+          {
+            <tr>
+              <td colspan="2">
+                Trenutno nema napisa
+              </td>
+            </tr>
+          }
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+﻿@using CZE.Data.Models
+@using CZE.Web.Util.Helper
+@model List<CZE.Data.Models.KursKategorija>
+@{
+    Layout = null;
+    KorisnickiNalog nalog = ViewData["nalog"] as KorisnickiNalog ?? await Context.GetLogiraniKorisnik();
+}
+
+@if (Model?.Any() ?? false)
+{
+  <table>
+    @foreach (var kategorija in Model)
+    {
+      <tr>
+        <td>
+          <a asp-area="AdministrativniRadnik" asp-controller="KursTip" asp-action="GetKursTipTable" asp-route-kursKategorijaId="@kategorija.KursKategorijaId"
+             ajax-call="da" ajax-update="#kursTipCardBody"
+             class="list-group-item list-group-item-action text-primary">
+            @kategorija.Naziv
+          </a>
+        </td>
+        <td>
+          @if (nalog != null )
+          {
+            <a asp-area="AdministrativniRadnik" asp-controller="KursKategorija" asp-action="Create" asp-route-id="@kategorija.KursKategorijaId"
+               class="btn btn-outline-warning" title="Edit"
+               ajax-call="da" ajax-update="#kursKategorijaCardBody"><span class="fa fa-edit"></span></a>
+            <a asp-area="AdministrativniRadnik" asp-controller="KursKategorija" asp-action="Delete" asp-route-id="@kategorija.KursKategorijaId"
+               class="btn btn-outline-danger" title="Delete"
+               data-toggle="confirmation" data-content="Da li ste sigurni da želite obrisati kategoriju?" data-popout="true" data-singleton="true"
+               ajax-call="da" ajax-update="#kursKategorijaCardBody"><span class="fa fa-trash"></span></a>
+          }
+        </td>
+      </tr>
+    }
+  </table>
+}
+else
+{
+  <p>Trenutno nema zapisa kategorije</p>
+}

@@ -1,0 +1,32 @@
+﻿@model CZE.Web.Areas.AdministratorSistema.Models.KorisnickiNalogVM
+<table class="table table-sm">
+  <thead>
+  <tr>
+    <th scope="col" class="w-25"></th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th class="text-info" scope="row">@Html.DisplayNameFor(m => m.KorisnickoIme)</th>
+    <td>@Html.DisplayFor(m=>m.KorisnickoIme)</td>
+  </tr>
+  <tr>
+    <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.UlogaKorisnika)</th>
+    <td>@Html.DisplayFor(model => model.UlogaKorisnika)</td>
+  </tr> 
+    <tr>
+    <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.Aktivan)</th>
+    <td>@Html.DisplayFor(model => model.Aktivan)</td>
+  </tr>
+  <tr>
+    <th class="text-info" scope="row">Akcije</th>
+    <td>
+      <a asp-area="AdministratorSistema" asp-controller="KorisnickiNalog" asp-action="Edit" asp-route-id="@Model.KorisnickiNalogId"
+         ajax-call="da" ajax-update="#korisnickiNalogDetails"
+         class="btn btn-outline-warning" title="Edit"><span class="fa fa-edit"></span></a>
+      
+    </td>
+  </tr>
+  </tbody>
+</table>

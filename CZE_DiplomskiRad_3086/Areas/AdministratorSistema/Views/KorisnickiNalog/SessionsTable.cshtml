@@ -1,0 +1,52 @@
+﻿@model System.Collections.Generic.List<CZE.Data.Models.AutorizacijskiToken>
+
+@{
+  ViewBag.Title = "Sessions";
+  Layout = "_LayoutAdmin";
+}
+
+<div id="SessionsCard" class="card  mb-3">
+  <div class="card-header text-center text-white bg-dark">
+    Sessions
+  </div>
+  <div id="kursKategorijaCardBody" class="card-body bg-light pr-1">
+    <div class="list-group text-center">
+      @if (Model?.Any() ?? false)
+      {
+        <table id="kursTipTable" class="table w-100">
+          <thead>
+            <tr>
+              <th>Ip adresa</th>
+              <th>Vrijeme evidentiranja</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var item in Model)
+            {
+              <tr>
+                <td>@Html.DisplayFor(modelItem => item.IpAdresa)</td>
+                <td>@Html.DisplayFor(modelItem => item.VrijemeEvidentiranja)</td>
+
+                <td class="text-right">
+                  <a asp-area="AdministratorSistema" asp-controller="KorisnickiNalog" asp-action="Delete" asp-route-id="@item.AutorizacijskiTokenId"
+                     ajax-call="da" ajax-update="#kursTipCardBody"
+                     class="btn btn-outline-danger" title="Delete"><span class="fa fa-trash"></span></a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+      else
+      {
+        <span> Trenutno nema zapisa za odabranu kategoriju </span>
+      }
+    </div>
+  </div>
+</div>
+
+
+
+
+

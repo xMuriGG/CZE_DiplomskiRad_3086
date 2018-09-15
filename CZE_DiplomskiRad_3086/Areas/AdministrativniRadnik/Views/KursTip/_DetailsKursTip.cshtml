@@ -1,0 +1,27 @@
+﻿@model CZE.Web.Areas.AdministrativniRadnik.Models.KursVMs.KursTipVM
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col" class="w-25"></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th class="text-info" scope="row">@Html.DisplayNameFor(m => m.Naziv)</th>
+      <td>@Html.DisplayFor(m => m.Naziv)</td>
+    </tr>
+    <tr>
+      <th class="text-info" scope="row">@Html.DisplayNameFor(m => m.Casova)</th>
+      <td>@Html.DisplayFor(m => m.Casova)</td>
+    </tr>
+    <tr>
+      <th class="text-info" scope="row">@Html.DisplayNameFor(m => m.Cijena)</th>
+      <td>@Html.DisplayFor(m => m.Cijena)</td>
+    </tr>
+    <tr>
+      <th class="text-info" scope="row">@Html.DisplayNameFor(m => m.Opis)</th>
+      <td>@Html.DisplayFor(m => m.Opis)</td>
+    </tr>
+  </tbody>
+</table>

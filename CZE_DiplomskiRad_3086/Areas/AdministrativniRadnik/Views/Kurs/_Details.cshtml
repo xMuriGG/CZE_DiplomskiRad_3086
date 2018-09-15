@@ -1,0 +1,30 @@
+﻿@model CZE.Web.Areas.AdministrativniRadnik.Models.KursVMs.DetailsVM
+@{
+  Layout = null; 
+}
+
+<ul class="nav nav-tabs" id="myTabList" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link btn btn-outline-secondary active" id="kurs-tab" data-toggle="tab" href="#kurs" role="tab" aria-controls="kurs" aria-selected="true">Kurs</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link btn btn-outline-secondary" id="tip-tab" data-toggle="tab" href="#tip" role="tab" aria-controls="tip" aria-selected="false">Tip</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link btn btn-outline-secondary" id="kategorija-tab" data-toggle="tab" href="#kategorija" role="tab" aria-controls="kategorija" aria-selected="false">Kategorija</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  
+  <div class="tab-pane fade show active " id="kurs" role="tabpanel" aria-labelledby="kurs-tab">
+    @{Html.RenderPartial("~/Areas/AdministrativniRadnik/Views/Kurs/_DetailsKurs.cshtml",Model.KursVM);}
+  </div>
+
+  <div class="tab-pane fade " id="tip" role="tabpanel" aria-labelledby="tip-tab">
+    @{Html.RenderPartial("~/Areas/AdministrativniRadnik/Views/KursTip/_DetailsKursTip.cshtml", Model.KursTipVM);}
+  </div>
+
+  <div class="tab-pane fade " id="kategorija" role="tabpanel" aria-labelledby="kategorija-tab">
+    @{Html.RenderPartial("~/Areas/AdministrativniRadnik/Views/KursKategorija/_DetailsKursKategorija.cshtml", Model.KursKategorijaVM);}
+  </div>
+</div>

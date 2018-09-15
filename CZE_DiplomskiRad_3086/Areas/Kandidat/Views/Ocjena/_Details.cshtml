@@ -1,0 +1,42 @@
+﻿@using CZE.Data.Models
+@using CZE.Web.Util.Helper
+@model CZE.Web.Areas.Kandidat.Models.OcjenaVMs.OcjenaVM
+@{
+  Layout = null;
+  KorisnickiNalog nalog = ViewData["nalog"] as KorisnickiNalog ?? await Context.GetLogiraniKorisnik();
+  ViewData["nalog"] = nalog;
+}
+
+<div id="ocjenaDetailsDiv" class="table-responsive px-2">
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col" class="w-25"></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th class="text-info" scope="row">@Html.DisplayNameFor(m => m.Vrijednost)</th>
+        <td>@Html.DisplayFor(m => m.Vrijednost)</td>
+      </tr>
+      <tr>
+        <th class="text-info" scope="row">@Html.DisplayNameFor(m => m.Opis)</th>
+        <td>@Html.DisplayFor(m => m.Opis)</td>
+      </tr>
+      @if (nalog != null && nalog.UlogaKorisnika != UlogeKorisnika.Predavac)
+      {
+        <tr>
+          <th class="text-info" scope="row">@Html.DisplayNameFor(m => m.Silenced)</th>
+          <td>
+            <a asp-area="Kandidat" asp-controller="Ocjena" asp-action="Silence" asp-route-id="@Model.OcjenaId"
+               class="btn btn-@(Model.Silenced ? "danger" : "success")" ajax-call="da" ajax-update="#grupaKandidatiBody">
+              <span class="fa fa-@(Model.Silenced ? "microphone-slash" : "microphone")"></span>
+            </a>
+          </td>
+        </tr>
+      }
+
+    </tbody>
+  </table>
+</div>

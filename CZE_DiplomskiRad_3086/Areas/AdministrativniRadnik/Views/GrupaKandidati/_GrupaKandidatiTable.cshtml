@@ -1,0 +1,77 @@
+﻿@using CZE.Data.Models
+@using CZE.Web.Util.Helper
+@model List<CZE.Web.Areas.AdministrativniRadnik.Models.GrupaVMs.GrupaKandidatiListItemVM>
+@{
+  KorisnickiNalog nalog = ViewData["nalog"] as KorisnickiNalog ?? await Context.GetLogiraniKorisnik();
+  ViewData["nalog"] = nalog;
+}
+@if (Model?.Any() ?? false)
+{
+  <div class="table-responsive">
+
+    <table id="grupaKandidatiTable" class="table w-100">
+      <thead>
+        <tr>
+          <th>@Html.DisplayNameFor(m => m[0].Ime) i @Html.DisplayNameFor(m => m[0].Prezime).ToLower()</th>
+          <th>@Html.DisplayNameFor(m => m[0].Email)</th>
+          <th>@Html.DisplayNameFor(m => m[0].BrojTelefona)</th>
+          <th>@Html.DisplayNameFor(m => m[0].Uplaceno)</th>
+          <th>@Html.DisplayNameFor(m => m[0].Odobren)</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model)
+        {
+          bool ocjena = item.Ocjena != null;
+
+          <tr>
+            <td>@Html.DisplayFor(modelItem => item.Ime) @Html.DisplayFor(modelItem => item.Prezime)</td>
+            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+            <td>
+              @Html.DisplayFor(modelItem => item.BrojMobitela)
+              @if (!string.IsNullOrEmpty(item.BrojTelefona))
+              {
+                <br /><span>@Html.DisplayFor(modelItem => item.BrojTelefona)</span>
+              }
+            </td>
+            <td>@item.Cijena / @(item.Uplaceno ?? "0.00") KM</td>
+            <td>
+              <a asp-area="AdministrativniRadnik" asp-controller="GrupaKandidati" asp-action="OdobrenStatusChange" asp-route-id="@item.GrupaKandidatiId"
+                 ajax-call="da"
+                 ajax-modal-id="#grupaModal"
+                 @*ajax-update="#kandidatiBodyDiv" *@
+                 class='btn @(item.Odobren?"btn-success":"btn-danger")'>@(item.Odobren ? "Da" : "Ne")</a>
+              </td>
+              <td class="text-right">
+                @if (nalog != null)
+                {
+                  if (nalog.UlogaKorisnika != UlogeKorisnika.Predavac)
+                  {
+                    <a asp-area="AdministrativniRadnik" asp-controller="UplataKandidata" asp-action="UplateKandidataTable" asp-route-grupaKandidatiId="@item.GrupaKandidatiId"
+                       ajax-call="da" ajax-update="#kandidatiBodyDiv"
+                       class="btn btn-outline-info" title="Uplate kandidata"><span class="fa fa-th-list"></span></a>
+                  }
+
+                  <a asp-area="Kandidat" asp-controller="Ocjena" asp-action="Details" asp-route-id="@item.Ocjena?.OcjenaId"
+                     ajax-call="da" ajax-update="#grupaKandidatiBody"
+                     class="btn btn-outline-@(ocjena?item.Ocjena.Silenced?"danger":"warning":"secondary disabled")"
+                     title="@(ocjena?item.Ocjena.Vrijednost.ToString():"Kandidat nije dao ocjenu.")">
+                    <span class="fa fa-star"></span>
+                  </a>
+                }
+
+                @*<a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Details"
+                  class="btn btn-outline-success" title="Details"><span class="fa fa-list-alt"></span></a>*@
+
+              </td>
+            </tr>
+          }
+      </tbody>
+    </table>
+  </div>
+}
+else
+{
+  <p> Trenutno nema zapisa za odabranu grupu </p>
+}

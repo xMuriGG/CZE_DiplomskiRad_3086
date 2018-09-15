@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>CZE.Data</AssemblyName>
+    <RootNamespace>CZE.Data</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180407135143_Add_Kandidat.cs" />
+    <Compile Remove="Migrations\20180407135403_Add_Kandidat.cs" />
+    <Compile Remove="Migrations\20180407135619_Add_Kandidat.cs" />
+    <Compile Remove="Migrations\20180414150301_podatciTypo.cs" />
+    <Compile Remove="Migrations\20180512145110_Slika.cs" />
+    <Compile Remove="Migrations\20180514132529_grupa_slikaNull.cs" />
+    <Compile Remove="Migrations\20180514132609_grupa_slikaNull.cs" />
+    <Compile Remove="Migrations\20180517170055_test.cs" />
+    <Compile Remove="Migrations\20180520142326_UplateKandidataAdd.cs" />
+    <Compile Remove="Migrations\20180525131213_Prisustvo_Termini_Add.cs" />
+    <Compile Remove="Migrations\20180525135744_GrupaKandidatiCompositeTest.cs" />
+    <Compile Remove="Migrations\20180912133211_Edit_UplateKandidata_ZaposlenikId_SetNull.cs" />
+    <Compile Remove="Migrations\20180913141445_Edit_Grupa_OnDelete.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+</Project>

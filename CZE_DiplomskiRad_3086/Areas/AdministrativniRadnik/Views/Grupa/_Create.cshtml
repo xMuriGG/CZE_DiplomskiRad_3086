@@ -1,0 +1,144 @@
+﻿@using CZE.Data.Models
+@model CZE.Web.Areas.AdministrativniRadnik.Models.GrupaVMs.GrupaCreateVM
+@{
+  Layout = null;
+}
+
+<form asp-area="Administrativniradnik" asp-controller="Grupa" asp-action="Create"
+      ajax-call="da" ajax-modal-id="#grupaModal" datatable-id="#grupaDataTable">
+
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+  <input asp-for="GrupaVM.GrupaId" class="form-control" type="hidden" />
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="GrupaVM.ZaposlenikId" class="input-group-text"></label>
+        </div>
+        <select asp-for="GrupaVM.ZaposlenikId" asp-items="@Model.Predavaci" class="form-control">
+          <option></option>
+        </select>
+      </div>
+      <span asp-validation-for="GrupaVM.ZaposlenikId" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="GrupaVM.CentarId" class="input-group-text"></label>
+        </div>
+        <select asp-for="GrupaVM.CentarId" asp-items="@Model.Centri" class="form-control">
+          <option></option>
+        </select>
+      </div>
+      <span asp-validation-for="GrupaVM.CentarId" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="GrupaVM.KursId" class="input-group-text"></label>
+        </div>
+        <select asp-for="GrupaVM.KursId" asp-items="@Model.Kursevi" class="form-control">
+          <option></option>
+        </select>
+      </div>
+      <span asp-validation-for="GrupaVM.KursId" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="GrupaVM.SlikaId" class="input-group-text"></label>
+        </div>
+        <select asp-for="GrupaVM.SlikaId" asp-items="@Model.Slike" class="form-control">
+          <option></option>
+        </select>
+      </div>
+      <span asp-validation-for="GrupaVM.SlikaId" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-8">
+      <input asp-for="GrupaVM.Naziv" class="form-control" placeholder="@Html.DisplayNameFor(m => m.GrupaVM.Naziv)" />
+      <span asp-validation-for="GrupaVM.Naziv" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-4">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label asp-for="GrupaVM.Status" class="input-group-text"></label>
+        </div>
+        <select asp-for="GrupaVM.Status" asp-items="@Html.GetEnumSelectList(typeof(GrupaStatus))" class="form-control">
+          <option></option>
+        </select>
+      </div>
+      <span asp-validation-for="GrupaVM.Status" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="input-group ">
+        <div class="input-group-prepend">
+          <label asp-for="GrupaVM.Pocetak" class="input-group-text"></label>
+        </div>
+        <input asp-for="GrupaVM.Pocetak" class="form-control" />
+      </div>
+      <span asp-validation-for="GrupaVM.Pocetak" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+      <div class="input-group ">
+        <div class="input-group-prepend">
+          <label asp-for="GrupaVM.Kraj" class="input-group-text"></label>
+        </div>
+        <input asp-for="GrupaVM.Kraj" class="form-control" />
+      </div>
+      <span asp-validation-for="GrupaVM.Kraj" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="input-group ">
+        <div class="input-group-prepend">
+          <label asp-for="GrupaVM.Casova" class="input-group-text"></label>
+        </div>
+        <input asp-for="GrupaVM.Casova" class="form-control" />
+      </div>
+      <span asp-validation-for="GrupaVM.Casova" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+      <div class="input-group ">
+        <div class="input-group-prepend">
+          <label asp-for="GrupaVM.Cijena" class="input-group-text"></label>
+        </div>
+        <input asp-for="GrupaVM.Cijena" class="form-control" />
+        <div class="input-group-append">
+          <span class="input-group-text">.00 KM</span>
+        </div>
+      </div>
+      <span asp-validation-for="GrupaVM.Cijena" class="text-danger"></span>
+    </div>
+  </div>
+  
+  
+  
+
+  
+  
+
+  @*<div class="form-group row">
+    <div class="form-check">
+     
+      <label asp-for="GrupaVM.AktivnaZaPrijave" class="form-check-label"></label>
+      <span asp-validation-for="GrupaVM.AktivnaZaPrijave" class="text-danger"></span>
+    </div>
+  </div>*@
+  <br/>
+  <div class="form-group">
+    <input type="submit" value="Snimi" class="btn btn-primary" />
+  </div>
+</form>

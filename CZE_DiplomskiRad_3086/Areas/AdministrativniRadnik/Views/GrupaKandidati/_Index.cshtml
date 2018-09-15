@@ -1,0 +1,64 @@
+﻿@model CZE.Web.Areas.AdministrativniRadnik.Models.GrupaVMs.GrupaKandidatiTableVM
+
+<input type="hidden" asp-for="GrupaId"/>
+<ul class="nav nav-tabs" id="myTabList" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link btn btn-outline-info active" id="kandidati-tab" data-toggle="tab" href="#kandidati" role="tab" aria-controls="kandidati" aria-selected="true">Kandidati</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link btn btn-outline-info" id="dodajKandidata-tab" data-toggle="tab" href="#dodajKandidata" role="tab" aria-controls="dodajKandidata" aria-selected="false">Dodaj kandidata</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+
+  <div class="tab-pane fade show active " id="kandidati" role="tabpanel" aria-labelledby="kandidati-tab">
+    <div id="kandidatiBodyDiv">
+      <!--_Idex-->
+      <!--_GrupaKandidatiTable-->
+      <!--\_Index-->
+
+      <div class="card">
+        <div class="card-header text-white bg-secondary ">
+          Kandidati grupe: @Model.GrupaNaziv
+        </div>
+        <div id="grupaKandidatiBody" class="card-body p-0">
+          @{ await Html.RenderPartialAsync("_GrupaKandidatiTable", Model.GrupaKandidati);}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="tab-pane fade show" id="dodajKandidata" role="tabpanel" aria-labelledby="dodajKandidata-tab">
+    <div class="table-responsive mt-2">
+      <table id="dodjelaKandidataDataTable" class="table table-hover w-100" cellspacing="0">
+        <thead>
+          <tr class="table-active">
+            <th scope="col">Ime i prezime</th>
+            <th scope="col">Datum rođenja</th>
+            <th scope="col">Email</th>
+            <th scope="col">Datum upisa</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Sakrivena dugmad za kloniranje u dataTable akcije koloni-->
+<!-- Skrivena u tbody radi ajax-call="da" atributa-->
+<table class="d-none">
+  <tbody>
+    <tr>
+      <td>
+        <div id="btnsdodjelaKandidataHiddenGroup">
+          <a asp-area="AdministrativniRadnik" asp-controller="GrupaKandidati" asp-action="DodajKandidataUGrupu" asp-route-grupaId="@Model.GrupaId" asp-route-kandidatId="0"
+             ajax-call="da" ajax-update="#grupaKandidatiBody" datatable-id="#dodjelaKandidataDataTable"
+             class="btn btn-outline-info" title="Dodaj kandidata u grupu"><span class="fa fa-plus"></span></a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- \Sakrivena dugmad za kloniranje u dataTable akcije koloni-->

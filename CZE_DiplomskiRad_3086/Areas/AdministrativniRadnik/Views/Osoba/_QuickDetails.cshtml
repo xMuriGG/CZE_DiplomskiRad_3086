@@ -1,0 +1,259 @@
+﻿@using CZE.Data.Models
+@using CZE.Web.Util.Helper
+@model CZE.Web.Areas.AdministrativniRadnik.Models.OsobaVMs.OsobaQuickDetailsVM
+@{
+  KorisnickiNalog nalog = ViewData["nalog"] as KorisnickiNalog ?? await Context.GetLogiraniKorisnik();
+  ViewData["nalog"] = nalog;
+  bool isZaposlenik = Model.ZaposlenikCreateVM.ZaposlenikVM != null;
+  bool isKandidat = Model.KandidatCreateVM.KandidatVM != null;
+}
+<div class="row">
+  <div class="col-12 col-sm-3 col-lg-2 mb-2">
+
+    <div class="row">
+      <div class="col-auto">
+        <img src="http://ncalarm.net/wp-content/uploads/2015/02/person-icon.png" style="height: 100px; width: 100px" class="img-thumbnail" />
+      </div>
+      <div class="w-100 d-none d-sm-block"></div>
+      <div class="col-auto">
+        <div class="btn-group-vertical mt-2">
+          <p class="ml-3 mb-0"><small class="text-muted">Promoviši u:</small></p>
+          @if (nalog != null && (nalog.UlogaKorisnika == UlogeKorisnika.Direktor || nalog.UlogaKorisnika == UlogeKorisnika.Administrator))
+          {
+            <button class="btn btn-secondary"
+                    type="button" data-toggle="collapse" data-target="#CollapseZaposlenik" aria-expanded="false" aria-controls="CollapseZaposlenik"
+                    @(isZaposlenik ? "disabled" : "")>
+              Zaposlenik
+            </button>
+
+          }
+
+          <button class="btn btn-info"
+                  type="button" data-toggle="collapse" data-target="#CollapseKandidat" aria-expanded="false" aria-controls="CollapseKandidat"
+                  @(isKandidat ? "disabled" : "")>
+            Kandidat
+          </button>
+          @if (!Model.KorisnickiNalog && (isKandidat || isZaposlenik))
+          {
+            <p class="ml-3 mb-0"><small class="text-muted">Uloga sistema:</small></p>
+            <button class="btn btn-warning"
+                    type="button" data-toggle="collapse" data-target="#CollapseKorisnickiNalog" aria-expanded="false" aria-controls="CollapseKorisnickiNalog">
+              Dodaj
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="w-100 d-block d-sm-none"></div>
+  <div class="col">
+
+    <div id="parentCollapse" class="row">
+
+      @if (nalog != null && (nalog.UlogaKorisnika == UlogeKorisnika.Direktor || nalog.UlogaKorisnika == UlogeKorisnika.Administrator))
+      {
+        <div class="collapse w-100 mb-2 mr-2" id="CollapseZaposlenik" data-parent="#parentCollapse">
+          <div class="card">
+            <div class="card-header text-white bg-secondary">Zaposlenik</div>
+            <div id="CollapseZaposlenikBody" class="card-body">
+              @if (!isZaposlenik)
+              {
+                await Html.RenderPartialAsync("~/Areas/Direktor/Views/Zaposlenik/_Create.cshtml", Model.ZaposlenikCreateVM);
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <div class="collapse w-100 mb-2 mr-2" id="CollapseKandidat" data-parent="#parentCollapse">
+        <div class="card">
+          <div class="card-header text-white bg-info">Kandidat</div>
+          <div id="CollapseKandidatBody" class="card-body">
+            @if (!isKandidat)
+            {
+              await Html.RenderPartialAsync("~/Areas/AdministrativniRadnik/Views/Kandidat/_Create.cshtml", Model.KandidatCreateVM);
+            }
+          </div>
+        </div>
+      </div>
+      <div class="collapse w-100 mb-2 mr-2" id="CollapseKorisnickiNalog" data-parent="#parentCollapse">
+        <div class="card">
+          <div class="card-header text-white bg-warning">Korisnicki nalog</div>
+          <div id="CollapseKorisnickiNalogBody" class="card-body">
+            @if (!Model.KorisnickiNalog)
+            {
+              await Html.RenderPartialAsync("~/Areas/AdministratorSistema/Views/KorisnickiNalog/_Create.cshtml", Model.KorisnickiNalogVM);
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ul class="nav nav-tabs" id="myTabList" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link btn btn-outline-secondary active" id="osoba-tab" data-toggle="tab" href="#osoba" role="tab" aria-controls="osoba" aria-selected="true">Osoba</a>
+      </li>
+      @if (isZaposlenik)
+      {
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-secondary" id="zaposlenikDetails-tab" data-toggle="tab" href="#zaposlenikDetails" role="tab" aria-controls="zaposlenikDetails" aria-selected="false">Zaposlenik</a>
+        </li>
+      }
+      @if (isKandidat)
+      {
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-secondary" id="kandidatDetails-tab" data-toggle="tab" href="#kandidatDetails" role="tab" aria-controls="kandidatDetails" aria-selected="false">Kandidat</a>
+        </li>
+      }
+      @if (Model.KorisnickiNalog)
+      {
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-secondary" id="korisnickiNalogDetails-tab" data-toggle="tab" href="#korisnickiNalogDetails" role="tab" aria-controls="korisnickiNalogDetails" aria-selected="false">Korisnički nalog</a>
+        </li>
+      }
+    </ul>
+    <div class="tab-content" id="myTabContent">
+
+      <div class="tab-pane fade show active " id="osoba" role="tabpanel" aria-labelledby="osoba-tab">
+
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col" class="w-25"></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.Ime)</th>
+              <td>@Html.DisplayFor(model => model.Ime)</td>
+            </tr>
+            <tr>
+              <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.Prezime)</th>
+              <td>@Html.DisplayFor(model => model.Prezime)</td>
+            </tr>
+            <tr>
+              <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.DatumRodjenja)</th>
+              <td>@Html.DisplayFor(model => model.DatumRodjenja)</td>
+            </tr>
+            <tr>
+              <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.MjestoRodjenjaId)</th>
+              <td>@Html.DisplayFor(model => model.MjestoRodjenjaNaziv)</td>
+            </tr>
+            <tr>
+              <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.MjestoBoravkaId)</th>
+              <td>@Html.DisplayFor(model => model.MjestoBoravkaNaziv)</td>
+            </tr>
+            <tr>
+              <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.Spol)</th>
+              <td>@Html.DisplayFor(model => model.Spol)</td>
+            </tr>
+            <tr>
+              <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.Email)</th>
+              <td>@Html.DisplayFor(model => model.Email)</td>
+            </tr>
+            <tr>
+              <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.Adresa)</th>
+              <td>@Html.DisplayFor(model => model.Adresa)</td>
+            </tr>
+            <tr>
+              <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.BrojMobitela)</th>
+              <td>@Html.DisplayFor(model => model.BrojMobitela)</td>
+            </tr>
+            @if (!String.IsNullOrEmpty(Model.BrojTelefona))
+            {
+              <tr>
+                <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.BrojTelefona)</th>
+                <td>@Html.DisplayFor(model => model.BrojTelefona)</td>
+              </tr>
+            }
+            @if (!String.IsNullOrEmpty(Model.KakoSteSaznaliZaNas))
+            {
+              <tr>
+                <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.KakoSteSaznaliZaNas)</th>
+                <td>@Html.DisplayFor(model => model.KakoSteSaznaliZaNas)</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        @if (Model.PodatciOFirmi)
+        {
+          <div class="card">
+            <div class="card-header">
+
+              <a class="btn" aria-expanded="false" data-toggle='collapse' data-target='#PodatciOFirmi' style="font-size: 15px"> @Html.DisplayNameFor(model => model.PodatciOFirmi)</a>
+
+            </div>
+            <div class="collapse" id="PodatciOFirmi">
+              <div class="card-body pt-0">
+
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="w-25"></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.NazivFirme)</th>
+                      <td>@Html.DisplayFor(model => model.NazivFirme)</td>
+                    </tr>
+                    <tr>
+                      <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.AdresaFirme)</th>
+                      <td>@Html.DisplayFor(model => model.AdresaFirme)</td>
+                    </tr>
+                    <tr>
+                      <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.GradFirmeId)</th>
+                      <td>@Html.DisplayFor(model => model.GradFirmeNaziv)</td>
+                    </tr>
+                    <tr>
+                      <th class="text-info" scope="row">@Html.DisplayNameFor(model => model.BrojTelefonaFirme)</th>
+                      <td>@Html.DisplayFor(model => model.BrojTelefonaFirme)</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (isZaposlenik)
+      {
+        <div class="tab-pane fade " id="zaposlenikDetails" role="tabpanel" aria-labelledby="zaposlenikDetails-tab">
+          @if (nalog != null && (nalog.UlogaKorisnika == UlogeKorisnika.Direktor || nalog.UlogaKorisnika == UlogeKorisnika.Administrator))
+          {
+            { await Html.RenderPartialAsync("~/Areas/Direktor/Views/Zaposlenik/_Details.cshtml", Model.ZaposlenikCreateVM.ZaposlenikVM);}
+          }
+          else
+          {
+            <br/>
+            <p>Nemate pravo pristupa ovim informacijama.</p>
+          }
+        </div>
+      }
+      @if (isKandidat)
+      {
+        <div class="tab-pane fade " id="kandidatDetails" role="tabpanel" aria-labelledby="kandidatDetails-tab">
+          @{ await Html.RenderPartialAsync("~/Areas/AdministrativniRadnik/Views/Kandidat/_Details.cshtml", Model.KandidatCreateVM.KandidatVM);}
+        </div>
+      }
+      @if (Model.KorisnickiNalog)
+      {
+        <div class="tab-pane fade " id="korisnickiNalogDetails" role="tabpanel" aria-labelledby="korisnickiNalogDetails-tab">
+          @{ await Html.RenderPartialAsync("~/Areas/AdministratorSistema/Views/KorisnickiNalog/_Details.cshtml", Model.KorisnickiNalogVM);}
+        </div>
+      }
+    </div>
+
+
+
+
+  </div>
+</div>
+

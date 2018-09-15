@@ -1,0 +1,308 @@
+﻿@using CZE.Web.Areas.AdministrativniRadnik.Models
+@model CZE.Web.Areas.AdministrativniRadnik.Models.OsobaIndexVM
+@{
+  ViewData["Title"] = "Osobe";
+}
+
+<!-- Breadcrumbs-->
+@*<ol class="breadcrumb mb-0">
+  <li class="breadcrumb-item">
+    <a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Index">Osobe</a>
+  </li>
+  <li class="breadcrumb-item active">Prikaz</li>
+</ol>*@
+
+
+
+<!-- Example DataTables Card-->
+<div class="card border-info mt-1 mb-3">
+  <div class="card-header bg-info">
+    <a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Create"
+       ajax-call="da" ajax-modal-id="#osobaModal"
+       class="btn btn-info">
+      <i class="fa fa-fw fa-user-plus"></i> Osobe
+    </a>
+  </div>
+  <div class="card-body pl-0 pr-0">
+    <div class="table-responsive ">
+      <table id="osobaDataTable" class="table table-hover w-100" cellspacing="0">
+        <thead>
+          <tr class="table-active">
+            <th scope="col">@Html.DisplayNameFor(m => m.Osobe[0].ImePrezime) </th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Osobe[0].DatumRodjenja)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Osobe[0].Email)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Osobe[0].Grad)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Osobe[0].Adresa)</th>
+            <th scope="col" title="a)uloga (1 zaposlenik,2 kandidat b)uloga naloga na sistemu(0 administrator,1 direktorm, 2 administrativni radnik, 3 predavač, 4 kandidat)" >@Html.DisplayNameFor(m => m.Osobe[0].Permisija)</th>
+            <th scope="col">Id</th>
+            <th scope="col">Akcije</th>
+          </tr>
+        </thead>
+        @*<tbody>
+            @foreach (OsobaListItemVM o in Model.Osobe)
+            {
+              <tr>
+                <td>@o.ImePrezime</td>
+                <td>@o.DatumRodjenja.ToString("d")</td>
+                <td>
+                  <a tabindex="0" class="btn btn-light" role="button" data-toggle="popover" data-trigger="focus"
+                     data-content="@o.Email"><span class="fa fa-envelope"></span></a>
+                </td>
+                <td>@o.Grad</td>
+                <td>
+                  <a tabindex="0" class="btn btn-light" role="button" data-toggle="popover" data-trigger="focus"
+                     data-content=" @o.Adresa"><span class="fa fa-map-marker"></span></a>
+                </td>
+                <td>@o.Permisija</td>
+                <td></td>
+                <td>
+                  <div class="row">
+                    <a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="QuickDetails" asp-route-id="@o.OsobaId"
+                       class="btn btn-outline-info" title="Quick details"><span class="fa fa-eye"></span></a>
+                    <a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Edit" asp-route-id="@o.OsobaId"
+                       class="btn btn-outline-warning" title="Edit"><span class="fa fa-edit"></span></a>
+                    <a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Details" asp-route-id="@o.OsobaId"
+                       class="btn btn-outline-success" title="Details"><span class="fa fa-address-book"></span></a>
+                    <a class="btn btn-outline-danger" title="Delete"><span class="fa fa-trash"></span></a>
+                  </div>
+                </td>
+
+              </tr>
+            }
+          </tbody>*@
+      </table>
+
+      <!-- Sakrivena dugmad za kloniranje u dataTable akcije koloni-->
+      <!-- Skrivena u tbody radi ajax-call="da" atributa-->
+      <table class="d-none">
+        <tbody>
+          <tr>
+            <td>
+              <div id="btnsHiddenGroup">
+                <a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="QuickDetails"
+                   ajax-call="da" ajax-modal-id="#osobaModal"
+                   class="btn btn-outline-info" title="Quick details"><span class="fa fa-eye"></span></a>
+                <a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Create"
+                   ajax-call="da" ajax-modal-id="#osobaModal"
+                   class="btn btn-outline-warning" title="Edit"><span class="fa fa-edit"></span></a>
+                <a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Details"
+                   class="btn btn-outline-success" title="Details"><span class="fa fa-address-book"></span></a>
+                <a asp-area="AdministrativniRadnik" asp-controller="Osoba" asp-action="Delete"
+                   ajax-call="da" datatable-id="#osobaDataTable"
+                   class="btn btn-outline-danger" title="Delete"
+                   data-toggle="confirmation" data-content="Da li ste sigurni da želite obrisati osobu?" data-popout="true" data-singleton="true"
+                   ><span class="fa fa-trash"></span></a>  
+                
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- \Sakrivena dugmad za kloniranje u dataTable akcije koloni-->
+    </div>
+  </div>
+  <div class="card-footer small text-muted">Updated @DateTime.Now.ToString("g")</div>
+</div><!-- \Example DataTables Card-->
+
+
+<div id="osobaModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="osobaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="osobaModalLabel">Osoba</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div id="modalBodyContent" class="modal-body">
+
+      </div>
+
+      @*<div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="#">Snimi</a>
+        </div>*@
+    </div>
+  </div>
+</div>
+
+@section Scripts
+{
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      var btnsHiddenGroup = $("#btnsHiddenGroup").attr("id", "");
+
+      initializeDataTable(btnsHiddenGroup);
+      //popover za Email i Adresu
+      $(function() {
+        $("#osobaDataTable").on("click",
+          "tbody tr a[data-toggle='popover']",
+          function() {
+            $(this).popover('show');
+          });
+
+      });
+      $('.popover-dismiss').popover({
+        trigger: 'focus'
+      });
+
+    });
+
+    function initializeDataTable(btnsHiddenGroup) {
+      $("#osobaDataTable").DataTable({
+          processing: true,
+          serverSide: true,
+          //deferLoading:at.Model.Osobe.Count,
+          //rowId: 'osobaId',
+          order: [],
+          ajax: {
+            "url": "/AdministrativniRadnik/Osoba/GetOsobeDataTable",
+            "method": "post"
+          },
+          columns: [
+            { data: "imePrezime" },
+            { data: "datumRodjenja", orderable: false },
+            {
+              data: "email",
+              render: function(data, type, row) {
+                return ` <a tabindex="0" class="btn btn-light" role="button" data-toggle="popover" data-trigger="focus"'
+                  ' data-content='${data}'><span class="fa fa-envelope"></span></a>`;
+              },
+              orderable: false
+            },
+            { data: "grad" },
+            {
+              data: "adresa",
+              render: function(data, type, row) {
+                return ` <a tabindex="0" class="btn btn-light" role="button" data-toggle="popover" data-trigger="focus"' 
+                  ' data-content='${data}'><span class="fa fa-map-marker"></span></a>`;
+              },
+              orderable: false
+            },
+            { data: "permisija" },
+            { data: "osobaId", visible: false },
+            {
+              data: null,
+              orderable: false,
+              render: function(data, type, row) {
+                var tempGroup = btnsHiddenGroup.clone();
+                tempGroup.find("a").each(function() {
+                  $(this).attr("href", $(this).attr("href") + "/" + row.osobaId);
+                });
+
+                return tempGroup.html();
+              }
+            }
+          ]
+        }
+      );
+    }
+    //function btnDetailsAjaxCallInit(progressBar, modalCreate) {
+    //  $("#osobaDataTable tbody").on("click", "tr a[title='Quick details']",
+    //    function (event) {
+    //      event.preventDefault();
+    //      var url = $(this).attr("href");
+    //      $.ajax({
+    //        url: url,
+    //        type: "GET",
+    //        beforeSend: function () {
+    //          progressBar.attr("style", "width:40%;");
+    //        }
+
+    //      }).done(function (data) {
+    //        progressBar.attr("style", "width:70%;");
+    //        modalCreate.find("#modalBodyContent").html(data);
+    //        initializeForm($("#frmCreateZaposlenik"), modalCreate, "#CollapseZaposlenikBody");
+    //        initializeForm($("#frmCreateKandidat"), modalCreate, "#CollapseKandidatBody");
+    //        modalCreate.modal("show");
+    //      }).fail(function () {
+    //        createAlert('Opps!', 'Greška prilikom komunikacije sa serverom.', 'Pukušajte ponovo.', 'danger', 'pageMessages', true, false);
+    //      }).always(function () {
+    //        progressBar.attr("style", "width:0%;");
+    //      });
+    //    });
+    //}
+    //function btnEditAjaxCallInit(progressBar, modalCreate) {
+    //  $("#osobaDataTable tbody").on("click", "tr a[title='Edit']",
+    //    function (event) {
+    //      event.preventDefault();
+    //      var url = $(this).attr("href");
+    //      $.ajax({
+    //        url: url,
+    //        type: "GET",
+    //        beforeSend: function () {
+    //          progressBar.attr("style", "width:40%;");
+    //        }
+
+    //      }).done(function (data) {
+    //        progressBar.attr("style", "width:70%;");
+    //        modalCreate.find("#modalBodyContent").html(data);
+    //        initializeForm($("#frmCreateOsoba"), modalCreate, "#CollapseZaposlenikBody");
+    //        initializeForm($("#frmCreateZaposlenik"), modalCreate, "#CollapseZaposlenikBody");
+    //        initializeForm($("#frmCreateKandidat"), modalCreate, "#CollapseKandidatBody");
+    //        modalCreate.modal("show");
+    //      }).fail(function () {
+    //        createAlert('Opps!', 'Greška prilikom komunikacije sa serverom.', 'Pukušajte ponovo.', 'danger', 'pageMessages', true, false);
+    //      }).always(function () {
+    //        progressBar.attr("style", "width:0%;");
+    //      });
+    //    });
+    //}
+    //function ajaxModal(progressBar, modalCreate) {
+    //  $("a[data-toggle='ajax-modal']").click(function (event) {
+    //    event.preventDefault();
+    //    $.ajax({
+    //      url: "/AdministrativniRadnik/Osoba/Create",
+    //      type: "GET",
+    //      beforeSend: function () {
+    //        progressBar.attr("style", "width:40%;");
+    //      }
+    //    }).done(function (data) {
+    //      progressBar.attr("style", "width:70%;");
+
+    //      modalCreate.find("#modalBodyContent").html(data);
+    //      initializeForm($("#frmCreateOsoba"), modalCreate, "#modalBodyContent");
+
+    //      modalCreate.modal("show");
+    //      }).fail(function () {
+    //      createAlert('Opps!', 'Greška prilikom komunikacije sa serverom.', 'Pukušajte ponovo.', 'danger', 'pageMessages', true, false);
+    //    }).always(function () {
+    //      progressBar.attr("style", "width:0%;");
+    //    });
+    //  });
+    //}
+    //function initializeForm(form, modalCreate, replaceId) {
+    //  $(form).submit(function (event) {
+    //    if ($(this).valid()) {
+    //      var url = $(this).attr("action");
+    //      $.ajax({
+    //        url: url,
+    //        type: "POST",
+    //        data: $(this).serialize()
+    //      }).done(function (data, status, xhr) {
+    //        if (xhr.status == "201") {
+    //          modalCreate.modal("hide");
+    //          modalCreate.find(replaceId).html("");
+    //          createAlert('', 'Uspjeh!', 'Zapis uspiješno pohranjen u bazu.', 'success', 'pageMessages', true);
+    //          $("#osobaDataTable").DataTable().ajax.reload(null, false);
+    //        }
+    //        else {
+    //          modalCreate.find(replaceId).html(data);
+    //          $.validator.unobtrusive.parse(form);
+    //          initializeForm(form, modalCreate, replaceId);
+    //        }
+
+    //      }).fail(function(parameters) {
+    //        createAlert('Opps!', 'Greška prilikom komunikacije sa serverom.', 'Pukušajte ponovo.', 'danger', 'pageMessages', true, false);
+    //      });
+    //      event.preventDefault();
+
+    //    }
+    //  });
+    //  $.validator.unobtrusive.parse(form);
+    //}
+  </script>
+}
+  

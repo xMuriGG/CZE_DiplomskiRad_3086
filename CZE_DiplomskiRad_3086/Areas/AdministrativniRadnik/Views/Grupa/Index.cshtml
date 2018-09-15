@@ -1,0 +1,294 @@
+﻿@using CZE.Data.Models
+@using CZE.Web.Util.Helper
+@model CZE.Web.Areas.AdministrativniRadnik.Models.GrupaVMs.GrupaListItemVM
+@{
+  ViewData["Title"] = "Grupe";
+  KorisnickiNalog nalog = ViewData["nalog"] as KorisnickiNalog ?? await Context.GetLogiraniKorisnik();
+  ViewData["nalog"] = nalog;
+}
+
+<div class="card border-primary">
+  <div class="card-header text-white bg-primary">
+    <a id="btnAddGrupa" class="btn btn-primary @(nalog==null || nalog.UlogaKorisnika==UlogeKorisnika.Predavac?"disabled":"")" 
+       ajax-call="da" ajax-modal-id="#grupaModal"
+       asp-area="AdministrativniRadnik" asp-controller="Grupa" asp-action="Create">
+      <i class="fa fa-fw fa-plus"></i> Grupe
+    </a>
+  </div>
+  <div id="grupaCardBody" class="card-body pl-0 pr-0">
+    <div class="table-responsive ">
+      <table id="grupaDataTable" class="table table-hover w-100" cellspacing="0">
+        <thead>
+          <tr class="table-active">
+            <th scope="col">Id</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Naziv)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Pocetak)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Kraj)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Casova)</th>
+            <th scope="col" title="@Html.DisplayNameFor(m => m.Cijena) u KM">@Html.DisplayNameFor(m => m.Cijena)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Status)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.KursInfo)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.Centar)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.ZaposlenikNaziv)</th>
+            <th scope="col">@Html.DisplayNameFor(m => m.SlikaThumb)</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+      </table>
+
+      <!-- Sakrivena dugmad za kloniranje u dataTable akcije koloni-->
+      <!-- Skrivena u tbody radi ajax-call="da" atributa-->
+      <table class="d-none">
+        <tbody>
+          <tr>
+            <td>
+              @if (nalog != null)
+              {
+                <div id="btnsHiddenGroup">
+                  <a asp-area="AdministrativniRadnik" asp-controller="GrupaKandidati" asp-action="GrupaKandidatiTable"
+                     ajax-call="da" ajax-modal-id="#grupaModal"
+                     class="btn btn-outline-info" title="Kandidati"><span class="fa fa-th-list"></span></a>
+                  <a asp-area="Predavac" asp-controller="Prisustvo" asp-action="PrisustvaIndex"
+                     ajax-call="da" ajax-modal-id="#grupaModal"
+                     class="btn btn-outline-success" title="Prisustva"><span class="fa fa-calendar-check-o"></span></a>
+                  @if (nalog.UlogaKorisnika != UlogeKorisnika.Predavac)
+                  {
+                    <a asp-area="AdministrativniRadnik" asp-controller="Grupa" asp-action="Create"
+                       ajax-call="da" ajax-modal-id="#grupaModal"
+                       class="btn btn-outline-warning" title="Edit"><span class="fa fa-edit"></span></a>
+                    <a asp-area="AdministrativniRadnik" asp-controller="Grupa" asp-action="Delete"
+                       ajax-call="da" datatable-id="#grupaDataTable"
+                       data-toggle="confirmation" data-content="Da li ste sigurni da želite obrisati grupu?" data-popout="true" data-singleton="true"
+                       class="btn btn-outline-danger" title="Delete"><span class="fa fa-trash"></span></a>
+                  }
+                </div>
+              }
+              <div>
+                <a asp-area="AdministrativniRadnik" asp-controller="Grupa" asp-action="GrupaStatusChange"
+                   id="grupaStatus" class="btn @(nalog==null || nalog.UlogaKorisnika==UlogeKorisnika.Predavac?"disabled":"")"
+                   ajax-call="da" datatable-id="#grupaDataTable"></a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- \Sakrivena dugmad za kloniranje u dataTable akcije koloni-->
+    </div>
+
+
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal-->
+<div id="grupaModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="grupaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="grupaModalLabel">Grupa</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- \Modal-->
+
+
+@section Scripts
+  {
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var btnsHiddenGroup = $("#btnsHiddenGroup").attr("id", "");
+      var grupaStatus = $("#grupaStatus");
+      var grupaUTokuStatus = $("#grupaUTokuStatus");
+      initializeDataTable(btnsHiddenGroup, grupaStatus);
+
+
+
+      //popover
+      $(function () {
+        $("#grupaDataTable").on("click",
+          "tbody tr a[data-toggle='popover']",
+          function () {
+            $(this).popover('show');
+          });
+
+      });
+      $('.popover-dismiss').popover({
+        trigger: 'focus'
+      });
+
+    });
+    $(document).ajaxComplete(function (event, xhr, settings) {
+      if (settings.url.indexOf("/AdministrativniRadnik/GrupaKandidati") !== -1 && settings.url.indexOf("DodajKandidataUGrupu") === -1) {
+        var btnsDodjelaKandidataHiddenGroup = $("#btnsdodjelaKandidataHiddenGroup").attr("id", "");
+        var grupaId = $("#GrupaId").val();
+        initDodjelaKandidataDataTable(btnsDodjelaKandidataHiddenGroup, grupaId);
+
+      }
+    });
+
+    function initializeDataTable(btnsHiddenGroup, grupaStatus) {
+
+      $("#grupaDataTable").DataTable({
+        processing: true,
+        serverSide: true,
+        order: [],
+        ajax: {
+          url: "/AdministrativniRadnik/Grupa/GetGrupeDataTable",
+          method: "post",
+          data: { kursId: 0 }
+
+        },
+        columns: [
+          { data: "grupaId", visible: false },
+          { data: "naziv", orderable: false },
+          { data: "pocetak" },
+          { data: "kraj" },
+          { data: "casova", orderable: false },
+          { data: "cijena", orderable: false },
+          {
+            data: "status",
+            render: function (data, type, row) {
+              var clone = grupaStatus.clone();
+              clone.attr("href", clone.attr("href") + "/" + row.grupaId);
+
+              if ($.type(data) === "number") {
+                var clas;
+                switch (data) {
+                  case 0: clas = "secondary"; break;
+                  case 1: clas = "success"; break;
+                  case 2: clas = "warning"; break;
+                  case 3: clas = "danger"; break;
+                  default: clas = "info";
+                }
+                clone.addClass("btn-" + clas);
+                clone.text(row.statusText);
+              }
+              return clone.prop("outerHTML");
+            }
+          },
+          {
+            data: "kursInfo",
+            className: "text-center",
+            render: function (data, type, row) {
+              return ` <a tabindex="0" class="btn btn-light" role="button" data-toggle="popover" data-trigger="focus"
+                                      data-content=' ${data} '><span class="fa fa-book"></span></a>`;
+            }, orderable: false
+          },
+          { data: "centar" },
+          {
+            data: "zaposlenikNaziv",
+            className: "text-center",
+            render: function (data, type, row) {
+              return ` <a tabindex="0" class="btn btn-light" role="button" data-toggle="popover" data-trigger="focus"
+                                      data-content=' ${data} '><span class="fa fa-user"></span></a>`;
+            }, orderable: false
+          },
+          {
+            data: "slikaThumb",
+            render: function (data, type, row) {
+              if (data) {
+                return "<img class='img-thumbnail' width='100px' height='100px' src='data:image;base64," + data + "' />";
+              } else {
+                return "<img class='img-thumbnail' width='100px' height='100px' src='" + row.slikaUrl + "' />";;
+              }
+            },
+            orderable: false
+          },
+          {
+            data: null,
+            orderable: false,
+            render: function (data, type, row) {
+              var tempGroup = btnsHiddenGroup.clone();
+              tempGroup.find("a").each(function () {
+                $(this).attr("href", $(this).attr("href") + "/" + row.grupaId);
+              });
+
+              return tempGroup.html();
+            }
+          }
+        ]
+      }
+      );
+    }
+    function initDodjelaKandidataDataTable(btnsHiddenGroup, grupaId = 0) {
+      //$("#dodjelaKandidataDataTable").DataTable().destroy();
+      $("#dodjelaKandidataDataTable").DataTable({
+        processing: true,
+        serverSide: true,
+        order: [],
+        ajax: {
+          "url": "/AdministrativniRadnik/Kandidat/GetKandidateDataTable",
+          "method": "post",
+          data: { grupaId }
+        },
+        columns: [
+          { data: "imePrezime", orderable: false },
+          { data: "datumRodjenja", orderable: false },
+          { data: "email", orderable: false },
+          { data: "datumUpisa", orderable: false },
+          {
+            data: null,
+            orderable: false,
+            render: function (data, type, row) {
+              var tempGroup = btnsHiddenGroup.clone();
+
+              var btn = tempGroup.find("a").first();
+              var url = btn.attr("href");
+              url = url.replace("kandidatId=0", "kandidatId=" + row.kandidatId);
+              btn.attr("href", url);
+              return tempGroup.html();
+            }
+          }
+        ]
+      }
+      );
+    }
+
+
+
+
+
+            //custom filtriranje data tabele na enter
+            //$(document).on("preInit.dt",
+            //  function () {
+            //    var $dbFilter = $(".dataTables_filter ");
+
+            //    var $sb = $dbFilter.find("input[type='search']");
+            //    $sb.attr("placeholder", "Search");
+            //    //label fix
+            //    var label = $dbFilter.find("label");
+            //    label.html("");
+            //    label.append($sb);
+            //    $sb.wrap("<div class='input-group'></div>");
+
+            //    // Add key hander
+            //    $sb.off().on("keypress",
+            //      function (evtObj) {
+            //        if (evtObj.keyCode == 13) {
+            //          $('#slikaDataTable').DataTable().search($sb.val()).draw();
+            //        }
+            //      });
+
+            //    // add button and button handler
+            //    var $btn = $("<button class='btn btn-outline-secondary' type='button'>Go</button>");
+            //    $sb.after($btn);
+            //    $btn.wrap("<div class='input-group-append'></div>");
+            //    $btn.on("click",
+            //      function (evtObj) {
+            //        $('#slikaDataTable').DataTable().search($sb.val()).draw();
+            //      });
+
+            //  });
+  </script>
+}
