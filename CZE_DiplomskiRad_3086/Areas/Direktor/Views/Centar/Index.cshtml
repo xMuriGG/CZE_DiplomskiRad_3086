@@ -9,13 +9,13 @@
 
 <div class="card border-dark mt-1">
   <div class="card-header text-white bg-dark">
-    <a id="btnAddCentar" class="btn btn-dark @(nalog==null || nalog.UlogaKorisnika==UlogeKorisnika.Predavac?"disabled":"")"
+    <a id="btnAddCentar" class="btn btn-dark @(nalog?.UlogaKorisnika>=UlogeKorisnika.AdministrativniRadnik?"disabled":"")"
        ajax-call="da" ajax-update="#centriCardBody"
        asp-area="Direktor" asp-controller="Centar" asp-action="Create">
       <i class="fa fa-fw fa-plus"></i> Centri
     </a>
   </div>
-  <div id="centriCardBody" class="card-body">
+  <div id="centriCardBody" class="card-body table-responsive">
 
     @if (Model?.Any() ?? false)
     {
