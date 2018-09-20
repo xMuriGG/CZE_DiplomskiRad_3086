@@ -29,13 +29,12 @@
 @section Scripts
   {
   <script type="text/javascript">
+    var data = @(Json.Serialize(Model.GrupaClientListItemVM));
+    var grupeDiv = $("#grupeDiv");
+    GenerateListGroupCard(data, grupeDiv, "replace");
+    data = null;
+
     $(document).ready(function () {
-
-      var data = @(Json.Serialize(Model.GrupaClientListItemVM));
-      var grupeDiv = $("#grupeDiv");
-      GenerateListGroupCard(data, grupeDiv, "replace");
-      data = null;
-
       //filtriranje grupa na klik na side filter
       $("#kursKategorijeRadioDiv").on("click","label",
         function () {
@@ -57,15 +56,8 @@
         if ($(window).scrollTop() + $(window).height() == $(document).height()) {
           var kursId = $("#kursKategorijeRadioDiv label.active input").val();
           GroupsAjaxCall("#grupeDiv", kursId, "append");
-          //console.log("scroll");
         }
       });
-
-
-      //$("#cardBodyKategorije").on("click", "input:checkbox",
-      //  function () {
-      //    $("#formSideFilter").submit();
-      //  });
 
     });
   </script>

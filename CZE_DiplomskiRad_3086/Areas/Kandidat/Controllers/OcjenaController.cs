@@ -65,6 +65,7 @@ namespace CZE.Web.Areas.Kandidat.Controllers
             {
                 if (model.OcjenaId != 0)
                 {
+                    o.DatumOcjene = DateTime.Now;
                     _db.Ocjene.Attach(o);
                     _db.Entry(o).State = EntityState.Modified;
                 }
@@ -83,8 +84,8 @@ namespace CZE.Web.Areas.Kandidat.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var o =await _db.Ocjene.FindAsync(id);
-            if (o==null)
+            var o = await _db.Ocjene.FindAsync(id);
+            if (o == null)
             {
                 return NotFound(new { alert = new Alert(Severity.info, "Nije pronađena.", $"Ocjena Id:{id}") });
             }
@@ -97,7 +98,7 @@ namespace CZE.Web.Areas.Kandidat.Controllers
                 Silenced = o.Silenced
             });
         }
-        [Autorizacija(UlogeKorisnika.Administrator,UlogeKorisnika.Direktor,UlogeKorisnika.AdministrativniRadnik)]
+        [Autorizacija(UlogeKorisnika.Administrator, UlogeKorisnika.Direktor, UlogeKorisnika.AdministrativniRadnik)]
         public async Task<IActionResult> Silence(int id)
         {
             var o = await _db.Ocjene.FindAsync(id);
@@ -107,7 +108,7 @@ namespace CZE.Web.Areas.Kandidat.Controllers
             }
             o.Silenced = !o.Silenced;
             await _db.SaveChangesAsync();
-            return RedirectToAction(nameof(Details), new {id});
+            return RedirectToAction(nameof(Details), new { id });
         }
     }
 }

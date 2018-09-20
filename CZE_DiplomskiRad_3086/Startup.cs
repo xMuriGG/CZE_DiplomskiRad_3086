@@ -26,7 +26,8 @@ namespace CZE.Web
         {
             services.AddMvc();
             //services.AddDbContext<CZEContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CZEContext")));
-            services.AddDbContext<CZEContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CZEGearHost")));
+            //services.AddDbContext<CZEContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CZEGearHost")));
+            services.AddDbContext<CZEContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CZEFitHost")));
             //services.AddDbContext<CZEContext>(options => options.UseInMemoryDatabase("ImeBaze"));
 
             // Adds a default in-memory implementation of IDistributedCache

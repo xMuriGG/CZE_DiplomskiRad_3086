@@ -151,8 +151,16 @@ function GenerateListGroupCard(grupeList, grupeDiv, mode = "append") {
 
 function DateTransform(date) {
   //transformacija je potrebna jer js zamjeni dan sa mjesecom
-  var dateParts = date.split(".");
-  return new Date(dateParts[2].substring(0, 4), dateParts[1] - 1, dateParts[0]);
+  if (typeof date == "undefined" || date == null) {
+    return "";
+  }
+  var dateSeparator = date.indexOf(".") !== -1 ? "." : "/";
+  var dateParts = date.split(dateSeparator);
+  if (dateParts.length === 0) {
+    return "";
+  } else {
+    return new Date(dateParts[2].substring(0, 4), dateParts[1] - 1, dateParts[0]);
+  }
 }
 
 function GenerateStars(ocjenaRaw) {

@@ -213,7 +213,7 @@ namespace CZE.Web.Controllers
                 Pocetak = s.Pocetak.ToString("d/M/yyyy H:mm"),
                 Kraj = s.Kraj != null ? ((DateTime)s.Kraj).ToString("d/M/yyyy") : "",
                 Casova = s.Casova ?? s.Kurs.KursTip.Casova,
-                Cijena = (s.Cijena ?? s.Kurs.KursTip.Cijena).ToString("C"),
+                Cijena = (s.Cijena ?? s.Kurs.KursTip.Cijena)+"KM",
                 Slika = s.Slika.SlikaFile,
                 SlikaUrl=s.Slika.SlikaUrl,
                 KursKategorijaNaziv = s.Kurs.KursTip.KursKategorija.Naziv,

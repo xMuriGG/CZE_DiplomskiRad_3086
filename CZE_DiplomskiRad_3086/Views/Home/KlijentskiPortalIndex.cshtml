@@ -19,7 +19,7 @@
       <h2>Poslovni centri</h2>
     </div>
 
-    @{Html.RenderPartial("~/Views/Home/Centri.cshtml", Model.CentariVm);}
+    @{await Html.RenderPartialAsync("~/Views/Home/Centri.cshtml", Model.CentariVm);}
 
   </div>
 }
@@ -76,8 +76,8 @@
 @section Scripts
   {
   <script type="text/javascript">
+    GroupsAjaxCall("#grupeDiv");
     $(document).ready(function () {
-      GroupsAjaxCall("#grupeDiv");
 
       //event za card animation
       $("#grupeDiv").on({
