@@ -56,6 +56,7 @@ namespace CZE.Web.Areas.AdministrativniRadnik.Models
             public string CentarNaziv { get; set; }
             //public byte[] Slika { get; set; }
             //public string SlikaUrl { get; set; }
+            public bool IsLogiraniKorisnikKandidat { get; set; }
             public bool LogiraniKandidatPrijavljen { get; set; }
             public bool Odobren { get; set; }
 

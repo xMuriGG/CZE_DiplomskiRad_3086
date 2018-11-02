@@ -85,8 +85,11 @@ namespace CZE.Web.Controllers
                 }).SingleOrDefaultAsync();
 
                 var nalog = await HttpContext.GetLogiraniKorisnik();
+
                 if (nalog != null)
                 {
+                    model.IsLogiraniKorisnikKandidat = await _db.Kandidati.AnyAsync(a => a.KandidatId == nalog.KorisnickiNalogId);
+
                     var gk = await
                         _db.GrupaKandidati.SingleOrDefaultAsync(a => a.GrupaId == model.GrupaId && a.KandidatId == nalog.KorisnickiNalogId);
                     model.LogiraniKandidatPrijavljen = gk != null;
@@ -154,12 +157,58 @@ namespace CZE.Web.Controllers
             });
         }
 
+        public async Task<JsonResult> GetPopularneGrupeCardListItem(int draw,int length)
+        {
+            var query = _db.Grupe.Select(s => new GrupaVMs.GrupaCardListItemVM()
+            {
+                GrupaId = s.GrupaId,
+                Naziv = s.Naziv,
+                Pocetak = s.Pocetak.ToString("d/M/yyyy H:mm"),
+                Kraj = s.Kraj != null ? ((DateTime)s.Kraj).ToString("d/M/yyyy") : "",
+                Casova = s.Casova ?? s.Kurs.KursTip.Casova,
+                Cijena = (s.Cijena ?? s.Kurs.KursTip.Cijena) + "KM",
+                Slika = s.Slika.SlikaFile,
+                SlikaUrl = s.Slika.SlikaUrl,
+                KursKategorijaNaziv = s.Kurs.KursTip.KursKategorija.Naziv,
+                KursTipNaziv = s.Kurs.KursTip.Naziv,
+                KursNaziv = s.Kurs.Naziv,
+                ZaposlenikNaziv = s.Zaposlenik.Osoba.Ime + " " + s.Zaposlenik.Osoba.Prezime,
+                CentarId = s.CentarId,
+                CentarLokacija = s.Centar.Grad.Naziv,
+                KandidataPrijavljeno = _db.GrupaKandidati.Count(w => w.GrupaId == s.GrupaId),              
+                Ocjena = _db.Ocjene.Where(w => !w.Silenced && w.GrupaKandidati.GrupaId == s.GrupaId).Select(ss => ss.Vrijednost)
+                    .DefaultIfEmpty(0).Average()
+            })
+            .OrderByDescending(o=>o.KandidataPrijavljeno)
+            .ThenByDescending(o=>o.Ocjena)
+            .Take(length);
+
+            var list = await query.ToListAsync();
+            var recordsTotal = query.Count();
+            var recordsFiltered = 0;
+
+            return Json(new
+            {
+                draw,
+                recordsTotal,
+                recordsFiltered,
+                data = list
+            });
+        }
+
+
         [Autorizacija()]
         public async Task<IActionResult> PrijavaUGrupu(int id)
         {
             var nalog = await HttpContext.GetLogiraniKorisnik();
             var kandidatId = nalog?.KorisnickiNalogId;
 
+            var kandidat = await _db.Kandidati.FindAsync(kandidatId ?? 0);
+
+            if (kandidat == null)
+            {
+                return BadRequest("Logirani korisnik mora biti kandidat da bi se prijavio u grupu.");
+            }
 
             Grupa grupa = await _db.Grupe.FindAsync(id);
             if (grupa == null || kandidatId == null || grupa.Status != GrupaStatus.Aktivna) { return BadRequest(); }
@@ -196,8 +245,15 @@ namespace CZE.Web.Controllers
                     await _db.Prisustva.AddRangeAsync(prisustva);
                 }
             }
-            await _db.SaveChangesAsync();
-            return RedirectToAction(nameof(Details), new { id });
+            try
+            {
+                await _db.SaveChangesAsync();
+                return RedirectToAction(nameof(Details), new { id });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
 
         private IQueryable<GrupaVMs.GrupaCardListItemVM> GetInitGrupaQuery(int? kategorijaId, GrupaStatus status, int start, int length)
@@ -213,9 +269,9 @@ namespace CZE.Web.Controllers
                 Pocetak = s.Pocetak.ToString("d/M/yyyy H:mm"),
                 Kraj = s.Kraj != null ? ((DateTime)s.Kraj).ToString("d/M/yyyy") : "",
                 Casova = s.Casova ?? s.Kurs.KursTip.Casova,
-                Cijena = (s.Cijena ?? s.Kurs.KursTip.Cijena)+"KM",
+                Cijena = (s.Cijena ?? s.Kurs.KursTip.Cijena) + "KM",
                 Slika = s.Slika.SlikaFile,
-                SlikaUrl=s.Slika.SlikaUrl,
+                SlikaUrl = s.Slika.SlikaUrl,
                 KursKategorijaNaziv = s.Kurs.KursTip.KursKategorija.Naziv,
                 KursTipNaziv = s.Kurs.KursTip.Naziv,
                 KursNaziv = s.Kurs.Naziv,

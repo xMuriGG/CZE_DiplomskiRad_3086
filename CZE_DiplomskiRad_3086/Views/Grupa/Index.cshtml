@@ -25,6 +25,7 @@
     <div id="grupeDiv" length="6" class="card-deck"></div>
   </div>
 </div>
+<div id="visibilityElement"></div>
 
 @section Scripts
   {
@@ -51,13 +52,55 @@
         }
       }, ".card-group");
 
+
       //Ucitavanje grupa kada se dosegne dno stranice
-      $(window).scroll(function() {
-        if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-          var kursId = $("#kursKategorijeRadioDiv label.active input").val();
-          GroupsAjaxCall("#grupeDiv", kursId, "append");
+      //Pocetno rjesenje koje nije radilo na mobilnoj verziji
+      //$(window).scroll(function () {
+      //  console.log($(window).scrollTop());
+      //  if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+      //    var kursId = $("#kursKategorijeRadioDiv label.active input").val();
+      //    GroupsAjaxCall("#grupeDiv", kursId, "append");
+      //  }
+      //});
+
+      //rjesenje koje radi i na mobilnoj verziji
+      //https://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433
+      function isElementInViewport(el) {
+        if (typeof jQuery === "function" && el instanceof jQuery) {
+          el = el[0];
         }
+        var rect = el.getBoundingClientRect();
+        return (
+          rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+        );
+      }
+      function onVisibilityChange(el, callback) {
+        var oldVisible;
+        return function () {
+          var visible = isElementInViewport(el);
+          if (visible && visible!=oldVisible) {
+            if (typeof callback == 'function') {
+              callback();
+            }
+          }
+            oldVisible = visible;
+        }
+      }
+
+      var el = $("#visibilityElement");
+      var handler = onVisibilityChange(el, function() {
+        var kursId = $("#kursKategorijeRadioDiv label.active input").val();
+        GroupsAjaxCall("#grupeDiv", kursId, "append");
+        console.log("visible");
       });
+
+      $(window).on('DOMContentLoaded load resize scroll', handler);
+
+      //document.getElementById("visibilityElement").onvisibilitychange = handler;
+
 
     });
   </script>

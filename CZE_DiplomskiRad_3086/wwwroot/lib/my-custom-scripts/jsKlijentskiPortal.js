@@ -43,12 +43,16 @@ $(window).scroll(function () {
   }
   scrollPosition = scrollPositionNow;
   //paralax ypos
-  var parallaxYposOffset = 300;
+  var parallaxYposOffset = 1300;
   $parallaxDiv.css("background-position", "center " + (-(scrollPositionNow - parallaxYposOffset) * 0.3) + "px");
 });
 
 
-function GroupsAjaxCall(grupeDivId, kategorijaId = null, mode = "append", status = "aktivna") {
+function GroupsAjaxCall(grupeDivId, kategorijaId = null, mode = "append", status = "aktivna", url = null) {
+
+  if (typeof url == 'undefined' || url == null) {
+    url = "/Grupa/GetGrupeCardListItem";
+  }
 
   var grupeDiv = $(grupeDivId);
   const length = grupeDiv.attr("length");
@@ -63,7 +67,7 @@ function GroupsAjaxCall(grupeDivId, kategorijaId = null, mode = "append", status
   }
 
   $.ajax({
-    url: "/Grupa/GetGrupeCardListItem",
+    url: url,
     type: "GET",
     dataType: "json",
     data: { kategorijaId, draw: draw++, start: currentItemCount, length, status }

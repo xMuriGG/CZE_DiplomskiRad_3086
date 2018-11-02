@@ -42,7 +42,7 @@
       </span>
     </div>
     <div>
-      @if (nalog != null)
+      @if (nalog != null && Model.IsLogiraniKorisnikKandidat)
       {
         if (!Model.LogiraniKandidatPrijavljen || (Model.LogiraniKandidatPrijavljen && Model.Odobren))
         {
@@ -58,7 +58,7 @@
       }
       else
       {
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Prijavi se!</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Prijavi se@(nalog!=null&&!Model.IsLogiraniKorisnikKandidat?" kao kandidat":"")!</button>
       }
     </div>
   </div>
@@ -125,8 +125,8 @@
   <dl class="row dl-details">
     <dt class="col-sm-3">@Html.DisplayNameFor(m => m.KursDetails.KursVM.Naziv)</dt>
     <dd class="col-sm-9">@Html.DisplayFor(m => m.KursDetails.KursVM.Naziv)</dd>
-    <dt class="col-sm-3">@Html.DisplayNameFor(m => m.KursDetails.KursTipVM.Opis)</dt>
-    <dd class="col-sm-9">@Html.DisplayFor(m => m.KursDetails.KursTipVM.Opis)</dd>
+    <dt class="col-sm-3">@Html.DisplayNameFor(m => m.KursDetails.KursVM.Opis)</dt>
+    <dd class="col-sm-9">@Html.DisplayFor(m => m.KursDetails.KursVM.Opis)</dd>
   </dl>
   <h4>Detalji tipa kursa</h4>
   <dl class="row dl-details">

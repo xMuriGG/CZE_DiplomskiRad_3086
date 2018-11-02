@@ -5,16 +5,33 @@
   Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-4"><strong>EKSA Education</strong></h1>
-    <p class="lead"><strong>EKSA, centar za cjeloživotno učenje, nudi vam usluge edukacije.</strong></p>
+
+
+<div class="my-jumbotron">
+  <div class="container h-100 text-center">
+    <div class="row h-100 ">
+      
+      <div class="col-12 pt-0 pt-md-5">
+        <h1 class="display-3 pt-0 pt-md-5 mt-0 mt-md-3">
+          <strong class="text-cze">EKSA</strong> Education
+        </h1>
+        <p class="lead">
+          <strong>EKSA, centar za cjeloživotno učenje, nudi vam usluge edukacije.</strong>
+        </p>
+      </div>
+
+      <div class="col-12 pt-md-5">
+        <a href="#poslovniCentri" class="btn btn-outline-light btn-lg mt-1">Poslovni centri</a>
+        <a href="#footer-client" class="btn btn-primary btn-lg mt-1">Kontaktirajte nas</a>
+      </div>
+
+    </div>
   </div>
 </div>
 
 @if (Model.CentariVm.Any())
 {
-  <div class="container bg-light my-3 py-2">
+  <div id="poslovniCentri" class="container my-3 py-2">
     <div class="section-headline text-center">
       <h2>Poslovni centri</h2>
     </div>
@@ -29,7 +46,7 @@
   <div class="section-headline text-center text-white ">
     <h2>O centru</h2>
   </div>
-  <div class="row text-white">
+  <div class="row text-white w-100">
     <div class="col-12 col-md-6 px-5">
       <div class="card card-info">
         <div class="card-body">
@@ -58,14 +75,14 @@
 </div>
 
 
-<div class="container bg-light mt-3 pt-2">
+<div class="container mt-3 pt-2">
   <div class="section-headline text-center">
     <h2>Popularne grupe</h2>
   </div>
 
   <div id="grupeDiv" length="6" class="card-deck">
   </div>
-  <div class="d-flex justify-content-center">
+  <div class="d-flex justify-content-center mt-3">
     <a class="btn btn-outline-dark p-3" href="/Grupa/Index">Pogledaj ostale grupe</a>
   </div>
 
@@ -76,7 +93,7 @@
 @section Scripts
   {
   <script type="text/javascript">
-    GroupsAjaxCall("#grupeDiv");
+    GroupsAjaxCall("#grupeDiv",0,"","", "/Grupa/GetPopularneGrupeCardListItem");
     $(document).ready(function () {
 
       //event za card animation

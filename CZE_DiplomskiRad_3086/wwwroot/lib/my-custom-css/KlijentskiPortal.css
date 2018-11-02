@@ -4,7 +4,7 @@
 
 /*rating bar na karici*/
 .checked {
-    color: orange;
+    color: orange; 
 }
 
 
@@ -57,6 +57,9 @@
 }
 
 
+.text-cze {
+    color: var(--CZE-Color) !important;
+}
 
 
 .section-headline h2 {
@@ -247,12 +250,15 @@
 
 /*Parallax*/
 .parallax {
-    background-image: url("https://images.unsplash.com/photo-1526566661780-1a67ea3c863e?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=18df8b5bb15e04c79281a7af090235bd&auto=format&fit=crop&w=1049&q=80");
-    /*background-image: url("https://static-1.europeanschooluxembourg2.eu/wp-content/uploads/education_button2.jpg");*/
+    /*background-image: url("https://images.unsplash.com/photo-1526566661780-1a67ea3c863e?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=18df8b5bb15e04c79281a7af090235bd&auto=format&fit=crop&w=1049&q=80");*/
+    /*background-image: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url("https://static-1.europeanschooluxembourg2.eu/wp-content/uploads/education_button2.jpg");*/
     /*background-image: url("http://digitallearning.eletsonline.com/wp-content/uploads/2018/04/School-Education-Transformation-Paving-Way-for-Better-Higher-Education.jpg");*/
+    /*background-image: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("https://images.unsplash.com/photo-1525944001263-ba59a9974f88?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ffca5f3ccc44b13d3b036035a6de1d5e&auto=format&fit=crop&w=1114&q=80");*/
+    background-image: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url("https://images.unsplash.com/photo-1528789408128-bf8999ce0091?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=2de14527cad8291f683895a34310060c&auto=format&fit=crop&w=1144&q=80");
+    /*background-image: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url("https://images.unsplash.com/photo-1462536943532-57a629f6cc60?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b0a61bab8c6f01c30f8c3654d172ece6&auto=format&fit=crop&w=1052&q=80");*/
     height: 500px;
     background-attachment: fixed;
-    background-position: center;
+    background-position: center center;
     /*background-repeat: no-repeat;*/
     background-size: cover;
 }
@@ -290,11 +296,21 @@
 }
 
 
-.jumbotron {
-    background-image: url("https://www.smak.co.za/images/bg.jpg");
-    background-size: 100% 100%;
-    color: #b0bec5;
+/*body, html {
+    height: 100%;
+    margin: 0;
+}*/
+
+
+.my-jumbotron {
+    /*background-image: url("https://www.smak.co.za/images/bg.jpg");*/
+    background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url("https://images.pexels.com/photos/267507/pexels-photo-267507.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260");
+    color: white;
     margin-bottom: 0;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 
@@ -363,3 +379,5 @@
     font-weight: bold;
     color: rgb(62, 193, 213);
 }
+
+
