@@ -7,86 +7,100 @@
 
 
 
-<div class="my-jumbotron">
-  <div class="container h-100 text-center">
-    <div class="row h-100 ">
-      
-      <div class="col-12 pt-0 pt-md-5">
-        <h1 class="display-3 pt-0 pt-md-5 mt-0 mt-md-3">
-          <strong class="text-cze">EKSA</strong> Education
-        </h1>
-        <p class="lead">
-          <strong>EKSA, centar za cjeloživotno učenje, nudi vam usluge edukacije.</strong>
-        </p>
-      </div>
 
-      <div class="col-12 pt-md-5">
-        <a href="#poslovniCentri" class="btn btn-outline-light btn-lg mt-1">Poslovni centri</a>
-        <a href="#footer-client" class="btn btn-primary btn-lg mt-1">Kontaktirajte nas</a>
-      </div>
+  <div class="my-jumbotron">
+    <div class="container h-100 text-center">
+      <div class="row h-100 ">
 
+        <div class="col-12 pt-0 pt-md-5">
+          <p class="lead pt-0 pt-md-3 mt-0 mt-md-2">
+            <h4>Centar za cjeloživotno učenje.</h4>
+          </p>    
+          <h1 class="display-3 ">
+            <strong class="text-cze">EKSA</strong> Education
+          </h1>
+          <p class="lead">
+            Izborite se uz nas za Vašu konkurentsku prednost - a to je ZNANJE.
+          </p>
+        </div>
+
+        <div class="col-12 pt-md-5">
+          <a asp-area="" asp-controller="Grupa" asp-action="Index" class="btn btn-outline-light btn-lg mt-1" >Aktivne grupe</a>
+          <a href="#footer-client" class="scrollTo btn btn-primary btn-lg mt-1" scrollTo-offset="60">Kontaktirajte nas</a>
+        </div>
+
+      </div>
     </div>
   </div>
-</div>
 
-@if (Model.CentariVm.Any())
-{
-  <div id="poslovniCentri" class="container my-3 py-2">
+  @if (Model.CentariVm.Any())
+  {
+    <div id="poslovniCentri" class="container my-5 py-4">
+      <div class="section-headline text-center">
+        <h2>Poslovni centri</h2>
+      </div>
+
+      @{await Html.RenderPartialAsync("~/Views/Home/Centri.cshtml", Model.CentariVm);}
+
+    </div>
+  }
+
+
+  <div id="parallax" class="parallax pt-3">
+    <div class="section-headline text-center text-white ">
+      <h2>O centru</h2>
+    </div>
+    <div class="row text-white w-100 mx-0">
+      <div class="col-12 col-md-6 px-1 px-md-5">
+        <div class="card card-info">
+          <div class="card-body">
+            <h5 class="card-title">CZE nudi</h5>
+            <ul>
+              <li>Organiziranje događaja</li>
+              <li>Certificiranje</li>
+              <li>Edukacija</li>
+              <li>ECDL</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 px-1 px-md-5">
+        <div class="card card-info">
+          <div class="card-body">
+            <h5 class="card-title">Zasto baš CZE</h5>
+            <ul>
+              <li>Besplatno testiranje za određivanje znanja</li>
+              <li>Ovlašteni ECDL test centar u Sarajevu</li>
+              <li>Priznati certifikati</li>
+              <li>Plaćanje na rate</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 px-1 px-md-5 mb-1 mb-md-5 mt-1">
+        <div class="card card-info">
+          <div class="card-body">
+            <h5 class="card-title">Ukratko o centru</h5>
+            Centar za edukaciju je jedan od vodećih akreditovanih centara za prijenos modernih i praktičnih znanja u domenu informacijskih tehnologija, stranih jezika, dizajna i poslovnih vještina. Kao ustanova koja se profesionalno bavi formalnim i neformalnim programima, u obrazovne pakete koji potpuno zadovoljavaju narastajuće potrebe različitih kompanija, uz integraciju tehnologije, metodologiju, kvalitetne kadrove, iskustva, specifične usluge i priznate programe.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="popularneGrupe" class="container mt-3 pt-2">
     <div class="section-headline text-center">
-      <h2>Poslovni centri</h2>
+      <h2>Popularne grupe</h2>
     </div>
 
-    @{await Html.RenderPartialAsync("~/Views/Home/Centri.cshtml", Model.CentariVm);}
-
-  </div>
-}
-
-
-<div id="parallax" class="parallax pt-3">
-  <div class="section-headline text-center text-white ">
-    <h2>O centru</h2>
-  </div>
-  <div class="row text-white w-100">
-    <div class="col-12 col-md-6 px-5">
-      <div class="card card-info">
-        <div class="card-body">
-          <h5 class="card-title">Centar za edukaciju</h5>
-          <ul>
-            <li>Certificiranje</li>
-            <li>Edukacija</li>
-            <li>ECDL</li>
-          </ul>
-        </div>
-      </div>
+    <div id="grupeDiv" length="6" class="card-deck">
     </div>
-    <div class="col-12 col-md-6 px-5">
-      <div class="card card-info">
-        <div class="card-body">
-          <h5 class="card-title">Zasto baš CZE</h5>
-          <ul>
-            <li>Priznati certifikati</li>
-            <li>Ovlašteni ECDL test centar u Sarajevu</li>
-            <li>Plaćanje na rate</li>
-          </ul>
-        </div>
-      </div>
+    <div class="d-flex justify-content-center mt-3">
+      <a class="btn btn-outline-dark p-3" href="/Grupa/Index">Pogledaj ostale grupe</a>
     </div>
   </div>
-</div>
-
-
-<div class="container mt-3 pt-2">
-  <div class="section-headline text-center">
-    <h2>Popularne grupe</h2>
-  </div>
-
-  <div id="grupeDiv" length="6" class="card-deck">
-  </div>
-  <div class="d-flex justify-content-center mt-3">
-    <a class="btn btn-outline-dark p-3" href="/Grupa/Index">Pogledaj ostale grupe</a>
-  </div>
-
-</div>
+  
 
 
 
@@ -105,6 +119,8 @@
           $(this).find(".card-text").stop().animate({ height: "toggle", opacity: "toggle" }, 300);
         }
       }, ".card-group");
+
+      $("body").scrollspy({target:"#clientNav",offset:300});
     });
 
 

@@ -20,6 +20,9 @@
     <Compile Remove="Migrations\20180525135744_GrupaKandidatiCompositeTest.cs" />
     <Compile Remove="Migrations\20180912133211_Edit_UplateKandidata_ZaposlenikId_SetNull.cs" />
     <Compile Remove="Migrations\20180913141445_Edit_Grupa_OnDelete.cs" />
+    <Compile Remove="Migrations\20181108123607_Edit_Kurs_KursTip_OpisLength.cs" />
+    <Compile Remove="Migrations\20181108124007_Edit_Kurs_KursTip_OpisLength.cs" />
+    <Compile Remove="Migrations\20181108124219_Edit_Kurs_KursTip_OpisLength.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,13 +4,15 @@ using CZE.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CZE.Data.Migrations
 {
     [DbContext(typeof(CZEContext))]
-    partial class CZEContextModelSnapshot : ModelSnapshot
+    [Migration("20181108125035_Edit_Kurs_KursTip_OpisLength")]
+    partial class Edit_Kurs_KursTip_OpisLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,7 +217,7 @@ namespace CZE.Data.Migrations
                         .HasMaxLength(100);
 
                     b.Property<string>("Opis")
-                        .HasMaxLength(4000);
+                        .HasMaxLength(2000);
 
                     b.HasKey("KursId");
 
@@ -258,7 +260,7 @@ namespace CZE.Data.Migrations
 
                     b.Property<string>("Opis")
                         .IsRequired()
-                        .HasMaxLength(4000);
+                        .HasMaxLength(2000);
 
                     b.HasKey("KursTipId");
 

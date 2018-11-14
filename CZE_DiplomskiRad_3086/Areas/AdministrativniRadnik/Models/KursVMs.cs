@@ -46,7 +46,7 @@ namespace CZE.Web.Areas.AdministrativniRadnik.Models
             public decimal Cijena { get; set; }
             [Required(ErrorMessage = "Opis tipa kursa je obavezno polje.")]
             [DataType(DataType.MultilineText)]
-            [StringLength(1000, ErrorMessage = "Max. 1000 karaktera.")]
+            [StringLength(4000, ErrorMessage = "Max. 4000 karaktera.")]
             public string Opis { get; set; }
             [Display(Name = "Kategorija")]
             [Required(ErrorMessage = "Kategorija tipa kursa je obavezno polje.")]
@@ -65,7 +65,7 @@ namespace CZE.Web.Areas.AdministrativniRadnik.Models
             [MaxLength(100, ErrorMessage = "Maximalna dužina naziva je 100 karaktera.")]
             public string Naziv { get; set; }
             [DataType(DataType.MultilineText)]
-            [StringLength(1000, ErrorMessage = "Max. 1000 karaktera.")]
+            [StringLength(4000, ErrorMessage = "Max. 4000 karaktera.")]
             public string Opis { get; set; }
             [Display(Name = "Tip")]
             [Required(ErrorMessage = "Tip kursa je obavezno polje.")]

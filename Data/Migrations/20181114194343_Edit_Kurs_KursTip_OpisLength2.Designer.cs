@@ -4,13 +4,15 @@ using CZE.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CZE.Data.Migrations
 {
     [DbContext(typeof(CZEContext))]
-    partial class CZEContextModelSnapshot : ModelSnapshot
+    [Migration("20181114194343_Edit_Kurs_KursTip_OpisLength2")]
+    partial class Edit_Kurs_KursTip_OpisLength2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

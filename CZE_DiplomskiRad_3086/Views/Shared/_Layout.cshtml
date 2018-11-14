@@ -19,103 +19,116 @@
   </environment>
   <environment exclude="Development">
     @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
-    asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.css"
-    asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />*@
+      asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.css"
+      asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />*@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.css"
           asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   </environment>
-    <!-- Page CUstom CSS-->
-    <link href="~/lib/my-custom-css/KlijentskiPortal.css" rel="stylesheet" />
+  <!-- Page CUstom CSS-->
+  <link href="~/lib/my-custom-css/KlijentskiPortal.css" rel="stylesheet" />
 
-    <!-- Bootstrap alert with js CSS  https://codepen.io/codysechelski/pen/dYVwjb -->
-    <link href="~/lib/bootstrap-alerts/css/bootstrap-alerts.css" rel="stylesheet" />
-    <!--Animate CSS https://daneden.github.io/animate.css/-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  <!-- Bootstrap alert with js CSS  https://codepen.io/codysechelski/pen/dYVwjb -->
+  <link href="~/lib/bootstrap-alerts/css/bootstrap-alerts.css" rel="stylesheet" />
+  <!--Animate CSS https://daneden.github.io/animate.css/-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 </head>
 <body>
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark navbar-transparent bg-dark">
-  <a class="navbar-brand text-cze" href="/">CZE</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+  <nav id="clientNav" class="navbar sticky-top navbar-expand-sm navbar-transparent navbar-dark bg-dark">
+    <a class="navbar-brand text-cze" href="/">CZE</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-3">
-      <li class="nav-item">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <a asp-area="" asp-controller="Grupa" asp-action="Index"
-               id="gupeNav" class="nav-link mr-2 mr-lg-0">
-              Grupe
-            </a>
-            <a role="button" class="nav-link dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="sr-only">Toggle Dropdown</span>
-            </a>
-            @await Component.InvokeAsync("KategorijaNavList")
-          </div>
-        </div>
-      </li>
-    </ul>
-
-    <ul class="navbar-nav ml-auto">
-      @if (nalog != null)
-      {
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-fw fa-user-circle"></i>
-            <span>@nalog.KorisnickoIme</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            <h6 class="dropdown-header">Logirani korisnik:</h6>
-            <div class="dropdown-divider"></div>
-            <div class="w-100" align="center">
-              @nalog.KorisnickoIme
-              <img src="/slike/person-icon.png" style="height: 100px; width: 100px" class="img-thumbnail" />
-              @nalog.UlogaKorisnika.ToString()
-            </div>
-            <div class="dropdown-divider"></div>
-            @if (nalog.UlogaKorisnika != UlogeKorisnika.Kandidat)
-            {
-              <a asp-area="" asp-controller="Home" asp-action="Dashboard"
-                 class="dropdown-item">
-                <strong>CZE Admin</strong>
-              </a>
-            }
-            <div class="dropdown-divider"></div>
-            <a asp-area="" asp-controller="Grupa" asp-action="GrupeKandidata" asp-route-id="@nalog.KorisnickiNalogId"
-               class="dropdown-item">
-              <strong>Moje grupe</strong>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a asp-area="" asp-controller="Postavke" asp-action="Index"
-               class="dropdown-item">
-              <strong>Postavke</strong>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a asp-area="" asp-controller="Autentifikacija" asp-action="Logout"
-               class="dropdown-item">
-              <strong>Logout</strong>
-            </a>
-          </div>
-        </li>
-      }
-      else
-      {
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-3">
         <li class="nav-item">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Login</button>
+          <a class="nav-link scrollTo" scrollTo-offset="60" href="/#poslovniCentri">Poslovnice</a>
         </li>
-      }
+        <li class="nav-item">
+          <a class="nav-link scrollTo" scrollTo-offset="60" href="/#parallax">O centru</a>
+        </li> 
+        <li class="nav-item">
+          <a class="nav-link scrollTo" scrollTo-offset="60" href="#popularneGrupe"></a>
+        </li>
+        
+        <li class="nav-item">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <a asp-area="" asp-controller="Grupa" asp-action="Index"
+                 id="gupeNav" class="nav-link mr-2 mr-lg-0">
+                Grupe
+              </a>
+              <a role="button" class="nav-link dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+              </a>
+              @await Component.InvokeAsync("KategorijaNavList")
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
 
 
-    </ul>
-  </div>
-</nav>
-  
 
-<div class="container-fluid p-0 h-100 w-100" id="RenderBody">
+        @if (nalog != null)
+        {
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle mr-lg-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-fw fa-user-circle"></i>
+              <span>@nalog.KorisnickoIme</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+              <h6 class="dropdown-header">Logirani korisnik:</h6>
+              <div class="dropdown-divider"></div>
+              <div class="w-100" align="center">
+                @nalog.KorisnickoIme
+                <img src="/slike/person-icon.png" style="height: 100px; width: 100px" class="img-thumbnail" />
+                @nalog.UlogaKorisnika.ToString()
+              </div>
+              <div class="dropdown-divider"></div>
+              @if (nalog.UlogaKorisnika != UlogeKorisnika.Kandidat)
+              {
+                <a asp-area="" asp-controller="Home" asp-action="Dashboard"
+                   class="dropdown-item">
+                  <strong>CZE Admin</strong>
+                </a>
+              }
+              <div class="dropdown-divider"></div>
+              <a asp-area="" asp-controller="Grupa" asp-action="GrupeKandidata" asp-route-id="@nalog.KorisnickiNalogId"
+                 class="dropdown-item">
+                <strong>Moje grupe</strong>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a asp-area="" asp-controller="Postavke" asp-action="Index"
+                 class="dropdown-item">
+                <strong>Postavke</strong>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a asp-area="" asp-controller="Autentifikacija" asp-action="Logout"
+                 class="dropdown-item">
+                <strong>Logout</strong>
+              </a>
+            </div>
+          </li>
+        }
+        else
+        {
+          <li class="nav-item">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Login</button>
+          </li>
+        }
+
+
+      </ul>
+    </div>
+  </nav>
+
+
+  <div class="container-fluid p-0 h-100 w-100" id="RenderBody">
     @RenderBody()
 
 
@@ -191,7 +204,7 @@
                     <span>Tel:</span> +387 61 111 111
                   </p>
                   <p>
-                    <span>Email:</span> eksa@info.com
+                    <span>Email:</span> <a class="text-dark" href="mailto:eksa@info.com">eksa@info.com</a>
                   </p>
                   <p>
                     <span>Radno vrijeme:</span> 8:00-17:00
@@ -201,44 +214,43 @@
             </div>
           </div>
         </div>
-      <div class="footer-client-area-bottom">
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <div class="credits">
-                © Copyright <span>CZE</span>. All Rights Reserved
-              </div>
-              <div class="credits">
-                Aplikaciju uradio: <span>Muris Čengić</span>
+        <div class="footer-client-area-bottom">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <div class="credits">
+                  © Copyright <span>CZE</span>. All Rights Reserved
+                </div>
+                <div class="credits">
+                  Aplikaciju uradio: <span>Muris Čengić</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </footer>
   </div>
 
 
 
-<environment include="Development">
-  <script src="~/lib/jquery/dist/jquery-3.3.1.min.js"></script>
-  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-</environment>
-  
-<environment exclude="Development">
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    asp-fallback-src="~/lib/jquery/dist/jquery-3.3.1.min.js"
-    asp-fallback-test="window.jQuery"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
-          asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
-          asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-          integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
-          crossorigin="anonymous"></script>
-</environment>
+  <environment include="Development">
+    <script src="~/lib/jquery/dist/jquery-3.3.1.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+  </environment>
+
+  <environment exclude="Development">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery-3.3.1.min.js"
+            asp-fallback-test="window.jQuery"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+            integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
+            crossorigin="anonymous"></script>
+  </environment>
   <script src="~/lib/my-custom-scripts/jsKlijentskiPortal.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7twI1uNyxR_m60w4fhV1tLV83g1TRqnE&callback=initMap"
           type="text/javascript"></script>

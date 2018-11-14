@@ -56,8 +56,9 @@ namespace CZE.Web.Controllers
                     CentarId = s.CentarId,
                     CentarGrad = s.Centar.Grad.Naziv,
                     CentarNaziv = s.Centar.Naziv,
-                    //Slika = s.Slika.SlikaFile,
-                    //SlikaUrl=s.Slika.SlikaUrl,
+                    Slika = s.Slika.SlikaFile.Count()>0?Convert.ToBase64String(s.Slika.SlikaFile):null,
+                    SlikaUrl = s.Slika.SlikaUrl,
+                    KandidataPrijavljeno = _db.GrupaKandidati.Count(w => w.GrupaId == s.GrupaId),
                     Ocjena = _db.Ocjene.Where(w => !w.Silenced && w.GrupaKandidati.GrupaId == s.GrupaId).Select(ss => ss.Vrijednost)
                         .DefaultIfEmpty(0).Average(),
                     KursDetails = new KursVMs.DetailsVM()

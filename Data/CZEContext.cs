@@ -111,7 +111,7 @@ namespace CZE.Data
             {
                 entity.ToTable("KursTipovi");
                 entity.Property(p => p.Naziv).IsRequired().HasMaxLength(100);
-                entity.Property(p => p.Opis).IsRequired().HasMaxLength(1000);
+                entity.Property(p => p.Opis).IsRequired().HasMaxLength(4000);
                 entity.Property(p => p.Cijena).HasColumnType("decimal(7,2)");
 
                 entity.HasOne(e => e.KursKategorija).WithMany().OnDelete(DeleteBehavior.Cascade);
@@ -120,7 +120,7 @@ namespace CZE.Data
             {
                 entity.ToTable("Kursevi");
                 entity.Property(p => p.Naziv).IsRequired().HasMaxLength(100);
-                entity.Property(p => p.Opis).HasMaxLength(1000);
+                entity.Property(p => p.Opis).HasMaxLength(4000);
 
                 entity.HasOne(e => e.KursTip).WithMany().OnDelete(DeleteBehavior.Cascade);
             });

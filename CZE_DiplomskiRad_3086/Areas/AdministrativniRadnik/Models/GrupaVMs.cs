@@ -62,6 +62,11 @@ namespace CZE.Web.Areas.AdministrativniRadnik.Models
 
             public KursVMs.DetailsVM KursDetails { get; set; }
             public double Ocjena { get; set; }
+            [Display(Name = "Kandidata prijavljeno")]
+            public int KandidataPrijavljeno { get; set; }
+
+            public string Slika { get; set; }
+            public string SlikaUrl { get; set; }
         }
         public class GrupaListItemVM
         {
