@@ -38,7 +38,7 @@ The system's functionalities, with restricted access rights, are uniquely groupe
       </ul>
     </td>
   </tr>
-  <tr><td>Predavač</td>
+  <tr><td>Lecturer</td>
     <td>
       <ul>
         <li>overview of courses</li>
