@@ -44,7 +44,7 @@ The system's functionalities, with restricted access rights, are uniquely groupe
         <li>overview of courses</li>
         <li>overview of groups</li>
         <li>group appointments management</li>
-        <li>grpup attendance management</li>
+        <li>group attendance management</li>
       </ul>
     </td>
   </tr>
